@@ -1,10 +1,22 @@
+from pico2d import *
+
 import game_framework
 import main_state
-from pico2d import *
 
 name = "Stage2State"
 
+background = None
 character = None
+
+class Background:
+    image = None
+
+    def __init__(self):
+        if Background.image == None:
+            Background.image = load_image('map_stage2.png')
+
+    def draw(self):
+        self.image.draw(500, 300)
 
 class ZakumBody:
     image = None
@@ -157,18 +169,19 @@ class Character:
     RIGHT_JUMP, LEFT_JUMP, RIGHT_ALERT, LEFT_ALERT, RIGHT_SKILL, LEFT_SKILL = 6, 7, 8, 9, 10, 11
 
     def __init__(self):
-        self.x, self.y = 100, 100
+        self.x, self.y = 100, 195
         self.frame = 0
         self.jumpy = 0
         self.temp = 0
+        self.alert_frames = 0
         self.state = self.RIGHT_STAND
         if Character.image == None:
-            Character.image = load_image('characterex.png')
+            Character.image = load_image('character.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
         if self.state == self.RIGHT_WALK:
-            self.x = min(800, self.x + 10)
+            self.x = min(1000, self.x + 10)
         elif self.state == self.LEFT_WALK:
             self.x = max(0, self.x - 10)
         elif self.state == self.LEFT_JUMP:
@@ -187,6 +200,17 @@ class Character:
                 self.y = self.temp
                 self.jumpy = 0
                 self.state = self.RIGHT_STAND
+        elif self.state == self.LEFT_ALERT:
+            self.alert_frames += 1
+            if (self.alert_frames == 20):
+                self.state = self.LEFT_STAND
+                self.alert_frames = 0
+        elif self.state == self.RIGHT_ALERT:
+            self.alert_frames += 1
+            if (self.alert_frames == 20):
+                self.state = self.RIGHT_STAND
+                self.alert_frames = 0
+
 
 
     def draw(self):
@@ -222,6 +246,11 @@ class Character:
             if self.state in (self.LEFT_STAND,):
                 self.temp = self.y
                 self.state = self.LEFT_JUMP
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_z):
+            if self.state in (self.RIGHT_STAND, self.RIGHT_ATTACK, self.RIGHT_WALK):
+                self.state = self.RIGHT_ALERT
+            if self.state in (self.LEFT_STAND, self.LEFT_ATTACK, self.LEFT_WALK):
+                self.state = self.LEFT_ALERT
 
 
 character = None
@@ -229,10 +258,11 @@ running = True
 
 
 def enter():
-    global character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
+    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
 
-    open_canvas()
+    open_canvas(1000, 600)
 
+    background = Background()
     zakumarm1 = ZakumArm1()
     zakumarm2 = ZakumArm2()
     zakumarm3 = ZakumArm3()
@@ -246,8 +276,9 @@ def enter():
 
 
 def exit():
-    global character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
+    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
 
+    del(background)
     del(zakumarm1)
     del(zakumarm2)
     del(zakumarm3)
@@ -298,6 +329,7 @@ def update():
 def draw():
     clear_canvas()
 
+    background.draw()
     zakumarm1.draw()
     zakumarm2.draw()
     zakumarm3.draw()

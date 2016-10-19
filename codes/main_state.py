@@ -98,7 +98,7 @@ class Character:
 
 def enter():
     global character
-    open_canvas()
+    open_canvas(1000, 600)
     character = Character()
 
 

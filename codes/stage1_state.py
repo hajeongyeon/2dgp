@@ -16,9 +16,10 @@ class Character:
         self.frame = 0
         self.jumpy = 0
         self.temp = 0
+        self.alert_frames = 0
         self.state = self.RIGHT_STAND
         if Character.image == None:
-            Character.image = load_image('characterex.png')
+            Character.image = load_image('character.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -42,6 +43,17 @@ class Character:
                 self.y = self.temp
                 self.jumpy = 0
                 self.state = self.RIGHT_STAND
+        elif self.state == self.LEFT_ALERT:
+            self.alert_frames += 1
+            if (self.alert_frames == 20):
+                self.state = self.LEFT_STAND
+                self.alert_frames = 0
+        elif self.state == self.RIGHT_ALERT:
+            self.alert_frames += 1
+            if (self.alert_frames == 20):
+                self.state = self.RIGHT_STAND
+                self.alert_frames = 0
+
 
 
     def draw(self):
@@ -77,11 +89,16 @@ class Character:
             if self.state in (self.LEFT_STAND,):
                 self.temp = self.y
                 self.state = self.LEFT_JUMP
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_z):
+            if self.state in (self.RIGHT_STAND, self.RIGHT_ATTACK, self.RIGHT_WALK):
+                self.state = self.RIGHT_ALERT
+            if self.state in (self.LEFT_STAND, self.LEFT_ATTACK, self.LEFT_WALK):
+                self.state = self.LEFT_ALERT
 
 
 def enter():
     global character
-    open_canvas()
+    open_canvas(1000, 600)
     character = Character()
 
 
