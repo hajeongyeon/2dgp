@@ -3,7 +3,18 @@ import stage1_state
 from pico2d import *
 
 name = "MainState"
+background = None
 character = None
+
+class Background:
+    image = None
+
+    def __init__(self):
+        if Background.image == None:
+            Background.image = load_image('resource/map_waiting.png')
+
+    def draw(self):
+        self.image.draw(550, 300)
 
 class Character:
     image = None
@@ -12,19 +23,19 @@ class Character:
     RIGHT_JUMP, LEFT_JUMP, RIGHT_ALERT, LEFT_ALERT, RIGHT_SKILL, LEFT_SKILL = 6, 7, 8, 9, 10, 11
 
     def __init__(self):
-        self.x, self.y = 100, 100
+        self.x, self.y = 500, 112
         self.frame = 0
         self.jumpy = 0
         self.temp = 0
         self.alert_frames = 0
         self.state = self.RIGHT_STAND
         if Character.image == None:
-            Character.image = load_image('character.png')
+            Character.image = load_image('resource/character.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
         if self.state == self.RIGHT_WALK:
-            self.x = min(800, self.x + 10)
+            self.x = min(1100, self.x + 10)
         elif self.state == self.LEFT_WALK:
             self.x = max(0, self.x - 10)
         elif self.state == self.LEFT_JUMP:
@@ -97,15 +108,15 @@ class Character:
 
 
 def enter():
-    global character
-    open_canvas(1000, 600)
+    global background, character
+    background = Background()
     character = Character()
 
 
 def exit():
-    global character
+    global background, character
+    del(background)
     del(character)
-    close_canvas()
 
 
 def handle_events():
@@ -129,6 +140,7 @@ def update():
 
 def draw():
     clear_canvas()
+    background.draw()
     character.draw()
     update_canvas()
 

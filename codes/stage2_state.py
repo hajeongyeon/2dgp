@@ -13,19 +13,19 @@ class Background:
 
     def __init__(self):
         if Background.image == None:
-            Background.image = load_image('map_stage2.png')
+            Background.image = load_image('resource/map_stage2.png')
 
     def draw(self):
-        self.image.draw(500, 300)
+        self.image.draw(550, 300)
 
 class ZakumBody:
     image = None
 
     def __init__(self):
-        self.x, self.y = 300, 250
+        self.x, self.y = 485, 345
         self.frame = 0
         if ZakumBody.image == None:
-            ZakumBody.image = load_image('zakum_body.png')
+            ZakumBody.image = load_image('resource/zakum_body.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 8
@@ -38,10 +38,10 @@ class ZakumArm1:
     image = None
 
     def __init__(self):
-        self.x, self.y = 440, 360
+        self.x, self.y = 620, 460
         self.frame = 0
         if ZakumArm1.image == None:
-            ZakumArm1.image = load_image('zakum_arm1.png')
+            ZakumArm1.image = load_image('resource/zakum_arm1.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -54,10 +54,10 @@ class ZakumArm2:
     image = None
 
     def __init__(self):
-        self.x, self.y = 470, 310
+        self.x, self.y = 650, 420
         self.frame = 0
         if ZakumArm2.image == None:
-            ZakumArm2.image = load_image('zakum_arm2.png')
+            ZakumArm2.image = load_image('resource/zakum_arm2.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -70,10 +70,10 @@ class ZakumArm3:
     image = None
 
     def __init__(self):
-        self.x, self.y = 470, 260
+        self.x, self.y = 650, 370
         self.frame = 0
         if ZakumArm3.image == None:
-            ZakumArm3.image = load_image('zakum_arm3.png')
+            ZakumArm3.image = load_image('resource/zakum_arm3.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -86,10 +86,10 @@ class ZakumArm4:
     image = None
 
     def __init__(self):
-        self.x, self.y = 470, 200
+        self.x, self.y = 650, 300
         self.frame = 0
         if ZakumArm4.image == None:
-            ZakumArm4.image = load_image('zakum_arm4.png')
+            ZakumArm4.image = load_image('resource/zakum_arm4.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -102,10 +102,10 @@ class ZakumArm5:
     image = None
 
     def __init__(self):
-        self.x, self.y = 190, 350
+        self.x, self.y = 370, 460
         self.frame = 0
         if ZakumArm5.image == None:
-            ZakumArm5.image = load_image('zakum_arm5.png')
+            ZakumArm5.image = load_image('resource/zakum_arm5.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -118,10 +118,10 @@ class ZakumArm6:
     image = None
 
     def __init__(self):
-        self.x, self.y = 170, 310
+        self.x, self.y = 350, 420
         self.frame = 0
         if ZakumArm6.image == None:
-            ZakumArm6.image = load_image('zakum_arm6.png')
+            ZakumArm6.image = load_image('resource/zakum_arm6.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -134,10 +134,10 @@ class ZakumArm7:
     image = None
 
     def __init__(self):
-        self.x, self.y = 170, 260
+        self.x, self.y = 350, 370
         self.frame = 0
         if ZakumArm7.image == None:
-            ZakumArm7.image = load_image('zakum_arm7.png')
+            ZakumArm7.image = load_image('resource/zakum_arm7.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -150,10 +150,10 @@ class ZakumArm8:
     image = None
 
     def __init__(self):
-        self.x, self.y = 170, 200
+        self.x, self.y = 350, 300
         self.frame = 0
         if ZakumArm8.image == None:
-            ZakumArm8.image = load_image('zakum_arm8.png')
+            ZakumArm8.image = load_image('resource/zakum_arm8.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
@@ -169,19 +169,19 @@ class Character:
     RIGHT_JUMP, LEFT_JUMP, RIGHT_ALERT, LEFT_ALERT, RIGHT_SKILL, LEFT_SKILL = 6, 7, 8, 9, 10, 11
 
     def __init__(self):
-        self.x, self.y = 100, 195
+        self.x, self.y = 100, 188
         self.frame = 0
         self.jumpy = 0
         self.temp = 0
         self.alert_frames = 0
         self.state = self.RIGHT_STAND
         if Character.image == None:
-            Character.image = load_image('character.png')
+            Character.image = load_image('resource/character.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 4
         if self.state == self.RIGHT_WALK:
-            self.x = min(1000, self.x + 10)
+            self.x = min(1100, self.x + 10)
         elif self.state == self.LEFT_WALK:
             self.x = max(0, self.x - 10)
         elif self.state == self.LEFT_JUMP:
@@ -260,8 +260,6 @@ running = True
 def enter():
     global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
 
-    open_canvas(1000, 600)
-
     background = Background()
     zakumarm1 = ZakumArm1()
     zakumarm2 = ZakumArm2()
@@ -289,8 +287,6 @@ def exit():
     del(zakumarm8)
     del(zakumbody)
     del(character)
-
-    close_canvas()
 
 def pause():
     pass
