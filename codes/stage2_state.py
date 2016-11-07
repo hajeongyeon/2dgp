@@ -24,6 +24,7 @@ class ZakumBody:
     def __init__(self):
         self.x, self.y = 485, 345
         self.frame = 0
+        self.hp = 900000
         if ZakumBody.image == None:
             ZakumBody.image = load_image('resource/zakum_body.png')
 
@@ -40,6 +41,7 @@ class ZakumArm1:
     def __init__(self):
         self.x, self.y = 620, 460
         self.frame = 0
+        self.hp = 200000
         if ZakumArm1.image == None:
             ZakumArm1.image = load_image('resource/zakum_arm1.png')
 
@@ -56,6 +58,7 @@ class ZakumArm2:
     def __init__(self):
         self.x, self.y = 650, 420
         self.frame = 0
+        self.hp = 200000
         if ZakumArm2.image == None:
             ZakumArm2.image = load_image('resource/zakum_arm2.png')
 
@@ -72,6 +75,7 @@ class ZakumArm3:
     def __init__(self):
         self.x, self.y = 650, 370
         self.frame = 0
+        self.hp = 200000
         if ZakumArm3.image == None:
             ZakumArm3.image = load_image('resource/zakum_arm3.png')
 
@@ -88,6 +92,7 @@ class ZakumArm4:
     def __init__(self):
         self.x, self.y = 650, 300
         self.frame = 0
+        self.hp = 200000
         if ZakumArm4.image == None:
             ZakumArm4.image = load_image('resource/zakum_arm4.png')
 
@@ -104,6 +109,7 @@ class ZakumArm5:
     def __init__(self):
         self.x, self.y = 370, 460
         self.frame = 0
+        self.hp = 200000
         if ZakumArm5.image == None:
             ZakumArm5.image = load_image('resource/zakum_arm5.png')
 
@@ -120,6 +126,7 @@ class ZakumArm6:
     def __init__(self):
         self.x, self.y = 350, 420
         self.frame = 0
+        self.hp = 200000
         if ZakumArm6.image == None:
             ZakumArm6.image = load_image('resource/zakum_arm6.png')
 
@@ -136,6 +143,7 @@ class ZakumArm7:
     def __init__(self):
         self.x, self.y = 350, 370
         self.frame = 0
+        self.hp = 200000
         if ZakumArm7.image == None:
             ZakumArm7.image = load_image('resource/zakum_arm7.png')
 
@@ -152,6 +160,7 @@ class ZakumArm8:
     def __init__(self):
         self.x, self.y = 350, 300
         self.frame = 0
+        self.hp = 200000
         if ZakumArm8.image == None:
             ZakumArm8.image = load_image('resource/zakum_arm8.png')
 
@@ -174,6 +183,7 @@ class Character:
         self.jumpy = 0
         self.temp = 0
         self.alert_frames = 0
+        self.hp = 5000
         self.state = self.RIGHT_STAND
         if Character.image == None:
             Character.image = load_image('resource/character.png')
@@ -251,6 +261,12 @@ class Character:
                 self.state = self.RIGHT_ALERT
             if self.state in (self.LEFT_STAND, self.LEFT_ATTACK, self.LEFT_WALK):
                 self.state = self.LEFT_ALERT
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
+            if self.state in (self.RIGHT_ATTACK,):
+                self.state = self.RIGHT_SKILL
+            if self.state in (self.LEFT_ATTACK,):
+                self.state = self.LEFT_SKILL
+
 
 
 character = None

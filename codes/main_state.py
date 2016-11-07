@@ -70,6 +70,7 @@ class Character:
     def draw(self):
         self.image.clip_draw(self.frame * 173, self.state * 100, 167, 100, self.x, self.y)
 
+
     def handle_event(self, event):
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LEFT):
             if self.state in (self.RIGHT_STAND, self.LEFT_STAND):
