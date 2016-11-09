@@ -222,9 +222,9 @@ class Character:
                 self.alert_frames = 0
 
 
-
     def draw(self):
         self.image.clip_draw(self.frame * 173, self.state * 100, 167, 100, self.x, self.y)
+
 
     def handle_event(self, event):
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LEFT):
@@ -268,13 +268,30 @@ class Character:
                 self.state = self.LEFT_SKILL
 
 
+class character_skill_effect_2:
+    image = None
+
+    def __init__(self):
+        self.x, self.y = 200, 200
+        self.frame = 0
+        if character_skill_effect_2.image == None:
+            character_skill_effect_2.image = load_image('resource/character_skill_effect2.png')
+
+    def update(self):
+        self.frame = (self.frame + 1) % 5
+        if self.frame == 5:
+            character_skill_effect_2.remove(character_skill_effect_2)
+
+    def draw(self):
+        self.image.clip_draw(self.frame * 255, 0, 255, 113, self.x, self.y)
+
 
 character = None
 running = True
 
 
 def enter():
-    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
+    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8, skill2
 
     background = Background()
     zakumarm1 = ZakumArm1()
@@ -287,10 +304,11 @@ def enter():
     zakumarm8 = ZakumArm8()
     zakumbody = ZakumBody()
     character = Character()
+    skill2 = character_skill_effect_2()
 
 
 def exit():
-    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
+    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8, skill2
 
     del(background)
     del(zakumarm1)
@@ -303,6 +321,7 @@ def exit():
     del(zakumarm8)
     del(zakumbody)
     del(character)
+    del(skill2)
 
 def pause():
     pass
@@ -335,6 +354,7 @@ def update():
     zakumarm8.update()
     zakumbody.update()
     character.update()
+    skill2.update()
     delay(0.1)
 
 
@@ -352,5 +372,6 @@ def draw():
     zakumarm8.draw()
     zakumbody.draw()
     character.draw()
+    skill2.draw()
 
     update_canvas()
