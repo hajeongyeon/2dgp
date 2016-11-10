@@ -271,19 +271,27 @@ class Character:
 class character_skill_effect_2:
     image = None
 
+    NOPUSH, PUSH = 0, 1
+
     def __init__(self):
         self.x, self.y = 200, 200
         self.frame = 0
+        self.state = self.NOPUSH
         if character_skill_effect_2.image == None:
             character_skill_effect_2.image = load_image('resource/character_skill_effect2.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 5
-        if self.frame == 5:
-            character_skill_effect_2.remove(character_skill_effect_2)
 
     def draw(self):
-        self.image.clip_draw(self.frame * 255, 0, 255, 113, self.x, self.y)
+        if self.state == self.PUSH:
+            self.image.clip_draw(self.frame * 255, 0, 255, 113, self.x, self.y)
+
+    def handle_event(self, event):
+        if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
+            if self.state in (self.NOPUSH,):
+                self.state = self.PUSH
+
 
 
 character = None
@@ -341,6 +349,7 @@ def handle_events():
                 game_framework.change_state(main_state)
             else:
                 character.handle_event(event)
+                skill2.handle_event(event)
 
 
 def update():
