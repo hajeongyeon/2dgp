@@ -286,6 +286,8 @@ class character_skill_effect_2:
     def draw(self):
         if self.state == self.PUSH:
             self.image.clip_draw(self.frame * 255, 0, 255, 113, self.x, self.y)
+            if (self.frame == 4):
+                self.state = self.NOPUSH
 
     def handle_event(self, event):
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
