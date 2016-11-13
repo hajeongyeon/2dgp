@@ -220,6 +220,12 @@ class Character:
             if (self.alert_frames == 20):
                 self.state = self.RIGHT_STAND
                 self.alert_frames = 0
+        elif self.state == self.LEFT_SKILL:
+            if self.frame == 3:
+                self.state = self.LEFT_ALERT
+        elif self.state == self.RIGHT_SKILL:
+            if self.frame == 3:
+                self.state = self.RIGHT_ALERT
 
 
     def draw(self):
@@ -262,9 +268,9 @@ class Character:
             if self.state in (self.LEFT_STAND, self.LEFT_ATTACK, self.LEFT_WALK):
                 self.state = self.LEFT_ALERT
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
-            if self.state in (self.RIGHT_ATTACK,):
+            if self.state in (self.RIGHT_ATTACK, self.RIGHT_STAND):
                 self.state = self.RIGHT_SKILL
-            if self.state in (self.LEFT_ATTACK,):
+            if self.state in (self.LEFT_ATTACK, self.LEFT_STAND):
                 self.state = self.LEFT_SKILL
 
 
@@ -274,20 +280,23 @@ class character_skill_effect_2:
     NOPUSH, PUSH = 0, 1
 
     def __init__(self):
-        self.x, self.y = 200, 200
+        self.x, self.y = character.x, character.y
         self.frame = 0
         self.state = self.NOPUSH
         if character_skill_effect_2.image == None:
             character_skill_effect_2.image = load_image('resource/character_skill_effect2.png')
 
     def update(self):
-        self.frame = (self.frame + 1) % 5
+        if self.state == self.PUSH:
+            self.x -= 50
+            self.frame = (self.frame + 1) % 5
 
     def draw(self):
         if self.state == self.PUSH:
             self.image.clip_draw(self.frame * 255, 0, 255, 113, self.x, self.y)
             if (self.frame == 4):
                 self.state = self.NOPUSH
+                self.x = character.x
 
     def handle_event(self, event):
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
