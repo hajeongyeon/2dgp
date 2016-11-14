@@ -274,6 +274,35 @@ class Character:
                 self.state = self.LEFT_SKILL
 
 
+class character_skill_effect_1:
+    image = None
+
+    NOPUSH, PUSH = 0, 1
+
+    def __init__(self):
+        self.x, self.y = character.x, character.y
+        self.frame = 0
+        self.state = self.NOPUSH
+        if character_skill_effect_1.image == None:
+            character_skill_effect_1.image = load_image('resource/character_skill_effect1.png')
+
+    def update(self):
+        if self.state == self.PUSH:
+            self.frame += 1
+
+    def draw(self):
+        if self.state == self.PUSH:
+            self.image.draw(character.x, character.y + 70)
+            if (self.frame == 4):
+                self.state = self.NOPUSH
+                self.frame = 0
+
+    def handle_event(self, event):
+        if (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
+            if self.state in (self.NOPUSH,):
+                self.state = self.PUSH
+
+
 class character_skill_effect_2:
     image = None
 
@@ -310,7 +339,8 @@ running = True
 
 
 def enter():
-    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8, skill2
+    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
+    global skill1, skill2
 
     background = Background()
     zakumarm1 = ZakumArm1()
@@ -323,11 +353,13 @@ def enter():
     zakumarm8 = ZakumArm8()
     zakumbody = ZakumBody()
     character = Character()
+    skill1 = character_skill_effect_1()
     skill2 = character_skill_effect_2()
 
 
 def exit():
-    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8, skill2
+    global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
+    global skill1, skill2
 
     del(background)
     del(zakumarm1)
@@ -340,6 +372,7 @@ def exit():
     del(zakumarm8)
     del(zakumbody)
     del(character)
+    del(skill1)
     del(skill2)
 
 def pause():
@@ -360,6 +393,7 @@ def handle_events():
                 game_framework.change_state(main_state)
             else:
                 character.handle_event(event)
+                skill1.handle_event(event)
                 skill2.handle_event(event)
 
 
@@ -374,6 +408,7 @@ def update():
     zakumarm8.update()
     zakumbody.update()
     character.update()
+    skill1.update()
     skill2.update()
     delay(0.1)
 
@@ -392,6 +427,7 @@ def draw():
     zakumarm8.draw()
     zakumbody.draw()
     character.draw()
+    skill1.draw()
     skill2.draw()
 
     update_canvas()
