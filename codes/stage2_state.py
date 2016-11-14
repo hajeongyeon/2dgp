@@ -1,3 +1,5 @@
+import random
+
 from pico2d import *
 
 import game_framework
@@ -333,6 +335,38 @@ class character_skill_effect_2:
                 self.state = self.PUSH
 
 
+class zakum_skill_effect_1:
+    image = None
+
+    def __init__(self):
+        self.x, self.y = random.randint(0, 1100), 300
+        self.frame = 0
+        if zakum_skill_effect_1.image == None:
+            zakum_skill_effect_1.image = load_image('resource/zakum_skill_effect1.png')
+
+    def update(self):
+        self.frame = (self.frame + 1) % 9
+
+    def draw(self):
+        self.image.clip_draw(self.frame * 320, 0, 320, 600, self.x, self.y)
+
+
+class zakum_skill_effect_2:
+    image = None
+
+    def __init__(self):
+        self.x, self.y = random.randint(0, 1100), 300
+        self.frame = 0
+        if zakum_skill_effect_2.image == None:
+            zakum_skill_effect_2.image = load_image('resource/zakum_skill_effect2.png')
+
+    def update(self):
+        self.frame = (self.frame + 1) % 7
+
+    def draw(self):
+        self.image.clip_draw(self.frame * 80, 0, 80, 600, self.x, self.y)
+
+
 
 character = None
 running = True
@@ -340,7 +374,7 @@ running = True
 
 def enter():
     global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
-    global skill1, skill2
+    global skill1, skill2, zskill1, zskill2
 
     background = Background()
     zakumarm1 = ZakumArm1()
@@ -355,11 +389,13 @@ def enter():
     character = Character()
     skill1 = character_skill_effect_1()
     skill2 = character_skill_effect_2()
+    zskill1 = [zakum_skill_effect_1() for i in range(5)]
+    zskill2 = [zakum_skill_effect_2() for j in range(5)]
 
 
 def exit():
     global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
-    global skill1, skill2
+    global skill1, skill2, zskill1, zskill2
 
     del(background)
     del(zakumarm1)
@@ -374,6 +410,8 @@ def exit():
     del(character)
     del(skill1)
     del(skill2)
+    del(zskill1)
+    del(zskill2)
 
 def pause():
     pass
@@ -410,6 +448,10 @@ def update():
     character.update()
     skill1.update()
     skill2.update()
+    for i in zskill1:
+        i.update()
+    for j in zskill2:
+        j.update()
     delay(0.1)
 
 
@@ -429,5 +471,9 @@ def draw():
     character.draw()
     skill1.draw()
     skill2.draw()
+    for i in zskill1:
+        i.draw()
+    for j in zskill2:
+        j.draw()
 
     update_canvas()
