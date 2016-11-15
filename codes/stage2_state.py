@@ -1,5 +1,4 @@
 import random
-
 from pico2d import *
 
 import game_framework
@@ -309,30 +308,42 @@ class character_skill_effect_2:
     image = None
 
     NOPUSH, PUSH = 0, 1
+    LEFT, RIGHT = 0, 1
 
     def __init__(self):
         self.x, self.y = character.x, character.y
         self.frame = 0
-        self.state = self.NOPUSH
+        self.push = self.NOPUSH
+        self.state = self.RIGHT
         if character_skill_effect_2.image == None:
             character_skill_effect_2.image = load_image('resource/character_skill_effect2.png')
 
     def update(self):
-        if self.state == self.PUSH:
-            self.x -= 50
+        if character.state == character.RIGHT_STAND:
+            self.state = self.RIGHT
+        elif character.state == character.LEFT_STAND:
+            self.state = self.LEFT
+
+        if self.push == self.PUSH:
             self.frame = (self.frame + 1) % 5
+            if self.state == self.RIGHT:
+                self.x += 50
+            elif self.state == self.LEFT:
+                self.x -= 50
+
 
     def draw(self):
-        if self.state == self.PUSH:
-            self.image.clip_draw(self.frame * 255, 0, 255, 113, self.x, self.y)
+        if self.push == self.PUSH:
+            self.image.clip_draw(self.frame * 255, self.state * 113, 255, 113, self.x, self.y)
             if (self.frame == 4):
-                self.state = self.NOPUSH
+                self.push = self.NOPUSH
                 self.x = character.x
+
 
     def handle_event(self, event):
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
-            if self.state in (self.NOPUSH,):
-                self.state = self.PUSH
+            if self.push in (self.NOPUSH,):
+                self.push = self.PUSH
 
 
 class zakum_skill_effect_1:
@@ -341,14 +352,20 @@ class zakum_skill_effect_1:
     def __init__(self):
         self.x, self.y = random.randint(0, 1100), 300
         self.frame = 0
+        self.time = 0
         if zakum_skill_effect_1.image == None:
             zakum_skill_effect_1.image = load_image('resource/zakum_skill_effect1.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 9
+        self.time += 1
 
     def draw(self):
-        self.image.clip_draw(self.frame * 320, 0, 320, 600, self.x, self.y)
+        if(self.time > 72):
+            self.image.clip_draw(self.frame * 320, 0, 320, 600, self.x, self.y)
+        if(self.time == 78):
+            self.time = 0
+            self.x = random.randint(0, 1100)
 
 
 class zakum_skill_effect_2:
@@ -357,14 +374,20 @@ class zakum_skill_effect_2:
     def __init__(self):
         self.x, self.y = random.randint(0, 1100), 300
         self.frame = 0
+        self.time = 0
         if zakum_skill_effect_2.image == None:
             zakum_skill_effect_2.image = load_image('resource/zakum_skill_effect2.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 7
+        self.time += 1
 
     def draw(self):
-        self.image.clip_draw(self.frame * 80, 0, 80, 600, self.x, self.y)
+        if(self.time > 100):
+            self.image.clip_draw(self.frame * 80, 0, 80, 600, self.x, self.y)
+        if self.time == 105:
+            self.time = 0
+            self.x = random.randint(0, 1100)
 
 
 
