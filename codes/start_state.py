@@ -1,5 +1,5 @@
-import game_framework
-import title_state
+import Game_Framework
+import Title_State
 from pico2d import *
 
 
@@ -25,7 +25,7 @@ def update():
 
     if (logo_time > 1.0):
         logo_time = 0
-        game_framework.push_state(title_state)
+        Game_Framework.push_state(Title_State)
     delay(0.01)
     logo_time += 0.01
 
