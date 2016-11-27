@@ -31,3 +31,21 @@ class Stage2Background:
 
     def draw(self):
         self.image.draw(550, 300)
+
+
+class Portal:
+    image = None
+
+    def __init__(self):
+        self.x, self.y = 815, 170
+        if Portal.image == None:
+            Portal.image = load_image('resource/portal.png')
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
+
+    def get_bb(self):
+        return self.x + 30, self.y - 90, self.x + 30, self.y
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())

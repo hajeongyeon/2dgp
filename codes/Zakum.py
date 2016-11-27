@@ -4,19 +4,34 @@ import random
 
 
 class ZakumBody:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 485, 345
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 900000
         if ZakumBody.image == None:
             ZakumBody.image = load_image('resource/zakum_body.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 8
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumBody.FRAMES_PER_ACTION * ZakumBody.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -24,19 +39,34 @@ class ZakumBody:
 
 
 class ZakumArm1:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 620, 460
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm1.image == None:
             ZakumArm1.image = load_image('resource/zakum_arm1.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm1.FRAMES_PER_ACTION * ZakumArm1.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -44,19 +74,34 @@ class ZakumArm1:
 
 
 class ZakumArm2:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 650, 420
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm2.image == None:
             ZakumArm2.image = load_image('resource/zakum_arm2.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm2.FRAMES_PER_ACTION * ZakumArm2.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -64,19 +109,34 @@ class ZakumArm2:
 
 
 class ZakumArm3:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 650, 370
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm3.image == None:
             ZakumArm3.image = load_image('resource/zakum_arm3.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm3.FRAMES_PER_ACTION * ZakumArm3.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -84,19 +144,34 @@ class ZakumArm3:
 
 
 class ZakumArm4:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 650, 300
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm4.image == None:
             ZakumArm4.image = load_image('resource/zakum_arm4.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm4.FRAMES_PER_ACTION * ZakumArm4.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -104,19 +179,34 @@ class ZakumArm4:
 
 
 class ZakumArm5:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 370, 460
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm5.image == None:
             ZakumArm5.image = load_image('resource/zakum_arm5.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm5.FRAMES_PER_ACTION * ZakumArm5.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -124,19 +214,34 @@ class ZakumArm5:
 
 
 class ZakumArm6:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 350, 420
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm6.image == None:
             ZakumArm6.image = load_image('resource/zakum_arm6.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm6.FRAMES_PER_ACTION * ZakumArm6.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -144,19 +249,34 @@ class ZakumArm6:
 
 
 class ZakumArm7:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 350, 370
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm7.image == None:
             ZakumArm7.image = load_image('resource/zakum_arm7.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm7.FRAMES_PER_ACTION * ZakumArm7.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -164,19 +284,34 @@ class ZakumArm7:
 
 
 class ZakumArm8:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 4
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = 350, 300
         self.frame = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         self.hp = 200000
         if ZakumArm8.image == None:
             ZakumArm8.image = load_image('resource/zakum_arm8.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 4
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumArm8.FRAMES_PER_ACTION * ZakumArm8.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 4
 
 
     def draw(self):
@@ -184,50 +319,72 @@ class ZakumArm8:
 
 
 class ZakumSkillEffect1:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 1.0
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 9
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = random.randint(0, 1100), 300
         self.frame = 0
-        self.time = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         if ZakumSkillEffect1.image == None:
             ZakumSkillEffect1.image = load_image('resource/zakum_skill_effect1.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 9
-        self.time += 1
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumSkillEffect1.FRAMES_PER_ACTION * ZakumSkillEffect1.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 9
 
 
     def draw(self):
-        if(self.time > 72):
-            self.image.clip_draw(self.frame * 320, 0, 320, 600, self.x, self.y)
-        if(self.time == 79):
-            self.time = 0
+        self.image.clip_draw(self.frame * 320, 0, 320, 600, self.x, self.y)
+        if self.frame == 8:
             self.x = random.randint(0, 1100)
 
 
 class ZakumSkillEffect2:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+    TIME_PER_ACTION = 1.0
+    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+    FRAMES_PER_ACTION = 7
+
+
     image = None
 
 
     def __init__(self):
         self.x, self.y = random.randint(0, 1100), 300
         self.frame = 0
-        self.time = 0
+        self.life_time = 0.0
+        self.total_frames = 0.0
         if ZakumSkillEffect2.image == None:
             ZakumSkillEffect2.image = load_image('resource/zakum_skill_effect2.png')
 
 
-    def update(self):
-        self.frame = (self.frame + 1) % 7
-        self.time += 1
+    def update(self, frame_time):
+        self.life_time += frame_time
+        self.total_frames += ZakumSkillEffect2.FRAMES_PER_ACTION * ZakumSkillEffect2.ACTION_PER_TIME * frame_time
+        self.frame = int(self.total_frames) % 7
 
 
     def draw(self):
-        if(self.time > 100):
-            self.image.clip_draw(self.frame * 80, 0, 80, 600, self.x, self.y)
-        if self.time == 106:
-            self.time = 0
+        self.image.clip_draw(self.frame * 80, 0, 80, 600, self.x, self.y)
+        if self.frame == 6:
             self.x = random.randint(0, 1100)

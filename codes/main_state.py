@@ -3,27 +3,31 @@ from pico2d import *
 import Game_Framework
 import Stage1_State
 
+from Collision import collide
 from Character import Character
-from Background import WaitingBackground
+from Background import WaitingBackground, Portal
 
 name = "MainState"
 background = None
 character = None
+portal = None
 
 
 def enter():
-    global background, character
+    global background, character, portal
     background = WaitingBackground()
+    portal = Portal()
     character = Character()
 
 
 def exit():
-    global background, character
+    global background, character, portal
     del(background)
+    del(portal)
     del(character)
 
 
-def handle_events():
+def handle_events(frame_time):
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -31,27 +35,25 @@ def handle_events():
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 Game_Framework.quit()
-            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_a):
-                Game_Framework.change_state(Stage1_State)
             else:
                 character.handle_event(event)
 
 
-def update():
-    character.update()
-    delay(0.1)
+def update(frame_time):
+    character.update(frame_time)
+
+    if collide(character, portal):
+        Game_Framework.change_state(Stage1_State)
 
 
-def draw():
+def draw(frame_time):
     clear_canvas()
+
     background.draw()
+    portal.draw()
     character.draw()
+
+    portal.draw_bb()
+    character.draw_bb()
+
     update_canvas()
-
-
-def pause():
-    pass
-
-
-def resume():
-    pass

@@ -139,7 +139,7 @@ def resume():
     pass
 
 
-def handle_events():
+def handle_events(frame_time):
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -155,27 +155,26 @@ def handle_events():
                 skill2.handle_event(event)
 
 
-def update():
-    zakumarm1.update()
-    zakumarm2.update()
-    zakumarm3.update()
-    zakumarm4.update()
-    zakumarm5.update()
-    zakumarm6.update()
-    zakumarm7.update()
-    zakumarm8.update()
-    zakumbody.update()
-    character.update()
+def update(frame_time):
+    zakumarm1.update(frame_time)
+    zakumarm2.update(frame_time)
+    zakumarm3.update(frame_time)
+    zakumarm4.update(frame_time)
+    zakumarm5.update(frame_time)
+    zakumarm6.update(frame_time)
+    zakumarm7.update(frame_time)
+    zakumarm8.update(frame_time)
+    zakumbody.update(frame_time)
+    character.update(frame_time)
     skill1.update()
     skill2.update()
     for i in zskill1:
-        i.update()
+        i.update(frame_time)
     for j in zskill2:
-        j.update()
-    delay(0.1)
+        j.update(frame_time)
 
 
-def draw():
+def draw(frame_time):
     clear_canvas()
 
     background.draw()

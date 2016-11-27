@@ -23,7 +23,7 @@ def exit():
     del(character)
 
 
-def handle_events():
+def handle_events(frame_time):
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -37,12 +37,12 @@ def handle_events():
                 character.handle_event(event)
 
 
-def update():
-    character.update()
+def update(frame_time):
+    character.update(frame_time)
     delay(0.1)
 
 
-def draw():
+def draw(frame_time):
     clear_canvas()
     background.draw()
     character.draw()
