@@ -19,7 +19,7 @@ class ZakumBody:
 
 
     def __init__(self):
-        self.x, self.y = 485, 345
+        self.x, self.y = 485, 325
         self.frame = 0
         self.life_time = 0.0
         self.total_frames = 0.0
@@ -334,7 +334,7 @@ class ZakumSkillEffect1:
 
 
     def __init__(self):
-        self.x, self.y = random.randint(0, 1100), 300
+        self.x, self.y = random.randint(0, 1100), 330
         self.frame = 0
         self.life_time = 0.0
         self.total_frames = 0.0
@@ -349,7 +349,7 @@ class ZakumSkillEffect1:
 
 
     def draw(self):
-        self.image.clip_draw(self.frame * 320, 0, 320, 600, self.x, self.y)
+        self.image.clip_draw(self.frame * 252, 0, 252, 474, self.x, self.y)
         if self.frame == 8:
             self.x = random.randint(0, 1100)
 
@@ -370,7 +370,7 @@ class ZakumSkillEffect2:
 
 
     def __init__(self):
-        self.x, self.y = random.randint(0, 1100), 300
+        self.x, self.y = random.randint(0, 1100), 330
         self.frame = 0
         self.life_time = 0.0
         self.total_frames = 0.0
@@ -385,6 +385,6 @@ class ZakumSkillEffect2:
 
 
     def draw(self):
-        self.image.clip_draw(self.frame * 80, 0, 80, 600, self.x, self.y)
+        self.image.clip_draw(self.frame * 63, 0, 63, 474, self.x, self.y)
         if self.frame == 6:
             self.x = random.randint(0, 1100)

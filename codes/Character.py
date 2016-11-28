@@ -7,7 +7,7 @@ class Character:
     RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
     RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
-    TIME_PER_ACTION = 0.5
+    TIME_PER_ACTION = 0.6
     ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 4
 
@@ -15,8 +15,8 @@ class Character:
     image = None
 
 
-    RIGHT_STAND, LEFT_STAND, RIGHT_WALK, LEFT_WALK, RIGHT_ATTACK, LEFT_ATTACK = 0, 1, 2, 3, 4, 5
-    RIGHT_JUMP, LEFT_JUMP, RIGHT_ALERT, LEFT_ALERT, RIGHT_SKILL, LEFT_SKILL = 6, 7, 8, 9, 10, 11
+    LEFT_STAND, RIGHT_STAND, LEFT_WALK, RIGHT_WALK, LEFT_ATTACK, RIGHT_ATTACK = 0, 1, 2, 3, 4, 5
+    LEFT_JUMP, RIGHT_JUMP, LEFT_DEATH, RIGHT_DEATH = 6, 7, 8, 9
 
 
     def __init__(self):
@@ -60,26 +60,10 @@ class Character:
                 self.y = self.temp
                 self.jumpy = 0
                 self.state = self.RIGHT_STAND
-        elif self.state == self.LEFT_ALERT:
-            self.alert_frames += 1
-            if (self.alert_frames == 20):
-                self.state = self.LEFT_STAND
-                self.alert_frames = 0
-        elif self.state == self.RIGHT_ALERT:
-            self.alert_frames += 1
-            if (self.alert_frames == 20):
-                self.state = self.RIGHT_STAND
-                self.alert_frames = 0
-        elif self.state == self.LEFT_SKILL:
-            if self.frame == 3:
-                self.state = self.LEFT_ALERT
-        elif self.state == self.RIGHT_SKILL:
-            if self.frame == 3:
-                self.state = self.RIGHT_ALERT
 
 
     def draw(self):
-        self.image.clip_draw(self.frame * 173, self.state * 100, 167, 100, self.x, self.y)
+        self.image.clip_draw(self.frame * 85, self.state * 85, 85, 85, self.x, self.y)
 
 
     def get_bb(self):
@@ -116,16 +100,6 @@ class Character:
             if self.state in (self.LEFT_STAND,):
                 self.temp = self.y
                 self.state = self.LEFT_JUMP
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_z):
-            if self.state in (self.RIGHT_STAND, self.RIGHT_ATTACK, self.RIGHT_WALK):
-                self.state = self.RIGHT_ALERT
-            if self.state in (self.LEFT_STAND, self.LEFT_ATTACK, self.LEFT_WALK):
-                self.state = self.LEFT_ALERT
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
-            if self.state in (self.RIGHT_ATTACK, self.RIGHT_STAND):
-                self.state = self.RIGHT_SKILL
-            if self.state in (self.LEFT_ATTACK, self.LEFT_STAND):
-                self.state = self.LEFT_SKILL
 
 
     def draw_bb(self):
