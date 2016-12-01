@@ -5,26 +5,26 @@ import Stage1_State
 
 from Collision import collide
 from Character import Character
-from Background import WaitingBackground, Portal
+from Background import WaitingBackground
+from Bullets import Skill
 
 name = "MainState"
 background = None
 character = None
-portal = None
-
+skill = None
 
 def enter():
-    global background, character, portal
+    global background, character, skill
     background = WaitingBackground()
-    portal = Portal()
     character = Character()
+    skill = Skill()
 
 
 def exit():
-    global background, character, portal
+    global background, character, skill
     del(background)
-    del(portal)
     del(character)
+    del(skill)
 
 
 def handle_events(frame_time):
@@ -35,25 +35,26 @@ def handle_events(frame_time):
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 Game_Framework.quit()
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_UP):
+                if collide(character, background):
+                    Game_Framework.change_state(Stage1_State)
             else:
                 character.handle_event(event)
 
 
 def update(frame_time):
     character.update(frame_time)
-
-    if collide(character, portal):
-        Game_Framework.change_state(Stage1_State)
+    skill.update(frame_time)
 
 
 def draw(frame_time):
     clear_canvas()
 
     background.draw()
-    portal.draw()
     character.draw()
+    skill.draw()
 
-    portal.draw_bb()
+    background.draw_bb()
     character.draw_bb()
 
     update_canvas()

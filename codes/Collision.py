@@ -2,6 +2,7 @@ from pico2d import *
 
 import Game_Framework
 
+from Background import WaitingBackground
 from Character import Character
 from Zakum import ZakumBody, ZakumArm1, ZakumArm2, ZakumArm3, ZakumArm4, ZakumArm5, ZakumArm6, ZakumArm7, ZakumArm8
 

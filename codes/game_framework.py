@@ -85,9 +85,9 @@ def run(Main_State):
     running = True
     stack = [Main_State]
     Main_State.enter()
-    current_time = time.clock()
+    current_time = time.time()
     while (running):
-        frame_time = time.clock() - current_time
+        frame_time = time.time() - current_time
         current_time += frame_time
         stack[-1].handle_events(frame_time)
         stack[-1].update(frame_time)
@@ -96,6 +96,11 @@ def run(Main_State):
     while (len(stack) > 0):
         stack[-1].exit()
         stack.pop()
+
+
+def reset_time():
+    global current_time
+    current_time = time.clock()
 
 
 def test_game_framework():
