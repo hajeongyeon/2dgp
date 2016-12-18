@@ -6,25 +6,40 @@ import Stage1_State
 from Collision import collide
 from Character import Character
 from Background import WaitingBackground
-from Bullets import Skill
+from Bullets import Attack, Skill
 
 name = "MainState"
 background = None
 character = None
+attack = None
 skill = None
+bullets = None
 
 def enter():
-    global background, character, skill
+    global background, character, skills, attack, bullets
     background = WaitingBackground()
     character = Character()
-    skill = Skill()
+    skills = []
+    bullets = []
 
 
 def exit():
-    global background, character, skill
+    global background, character, skills, attack, bullets
     del(background)
     del(character)
-    del(skill)
+    del(skills)
+    del(attack)
+    del(bullets)
+
+
+def shooting():
+    global bullets
+    bullets.append(Attack(character.x, character.y, character.state))
+
+
+def skill():
+    global skills
+    skills.append(Skill(character.x, character.y, character.state))
 
 
 def handle_events(frame_time):
@@ -40,11 +55,19 @@ def handle_events(frame_time):
                     Game_Framework.change_state(Stage1_State)
             else:
                 character.handle_event(event)
+                if character.b_attack == True:
+                    shooting()
+                elif character.b_skill == True:
+                    skill()
 
 
 def update(frame_time):
     character.update(frame_time)
-    skill.update(frame_time)
+
+    for skill in skills:
+        skill.update(frame_time)
+    for attack in bullets:
+        attack.update(frame_time)
 
 
 def draw(frame_time):
@@ -52,7 +75,11 @@ def draw(frame_time):
 
     background.draw()
     character.draw()
-    skill.draw()
+
+    for attack in bullets:
+        attack.draw()
+    for skill in skills:
+        skill.draw()
 
     background.draw_bb()
     character.draw_bb()

@@ -2,12 +2,12 @@ from pico2d import *
 
 class Character:
     PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-    RUN_SPEED_KMPH = 20.0  # Km / Hour
+    RUN_SPEED_KMPH = 30.0  # Km / Hour
     RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
     RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
     RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
-    TIME_PER_ACTION = 0.6
+    TIME_PER_ACTION = 1.0
     ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 4
 
@@ -31,6 +31,14 @@ class Character:
         self.temp = 0
         self.alert_frames = 0
         self.hp = 5000
+        #
+        self.a_time = 0
+        self.b_attack = False
+        #
+        self.j_time = 0
+        self.b_jump = False
+        #
+        self.b_skill = False
         if Character.image == None:
             Character.image = load_image('resource/character.png')
 
@@ -45,24 +53,43 @@ class Character:
             self.x = min(1100, self.x + distance)
         elif self.state == self.LEFT_WALK:
             self.x = max(0, self.x - distance)
-        elif self.state == self.LEFT_JUMP:
-            if (self.jumpy <= 20):
-                self.jumpy += 20
-                self.y += self.jumpy
-            else:
+        #
+        if self.state == self.RIGHT_JUMP:
+            self.j_time += 0.18
+            self.y -= -9 + (0.98 * self.j_time * self.j_time) / 2
+            if self.y <= self.temp:
+                self.j_time = 0
+                self.b_jump = False
                 self.y = self.temp
-                self.jumpy = 0
-                self.state = self.LEFT_STAND
-        elif self.state == self.RIGHT_JUMP:
-            if (self.jumpy <= 20):
-                self.jumpy += 20
-                self.y += self.jumpy
-            else:
-                self.y = self.temp
-                self.jumpy = 0
                 self.state = self.RIGHT_STAND
-
-
+        if self.state == self.LEFT_JUMP:
+            self.j_time += 0.18
+            self.y -= -9 + (0.98 * self.j_time * self.j_time) / 2
+            if self.y <= self.temp:
+                self.j_time = 0
+                self.b_jump = False
+                self.y = self.temp
+                self.state = self.LEFT_STAND
+        #
+        if self.b_attack == True:
+            self.a_time += frame_time
+            if self.a_time >= 0.5:
+                self.a_time = 0
+                self.b_attack = False
+                if self.state == self.RIGHT_ATTACK:
+                    self.state = self.RIGHT_STAND
+                elif self.state == self.LEFT_ATTACK:
+                    self.state = self.LEFT_STAND
+        #
+        if self.b_skill == True:
+            self.a_time += frame_time
+            if self.a_time >= 0.5:
+                self.a_time = 0
+                self.b_skill = False
+                if self.state == self.RIGHT_ATTACK:
+                    self.state = self.RIGHT_STAND
+                elif self.state == self.LEFT_ATTACK:
+                    self.state = self.LEFT_STAND
 
 
     def draw(self):
@@ -88,14 +115,11 @@ class Character:
                 self.state = self.RIGHT_STAND
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LCTRL):
             if self.state in (self.RIGHT_WALK, self.RIGHT_STAND):
+                self.b_attack = True
                 self.state = self.RIGHT_ATTACK
             if self.state in (self.LEFT_WALK, self.LEFT_STAND):
+                self.b_attack = True
                 self.state = self.LEFT_ATTACK
-        elif (event.type, event.key) == (SDL_KEYUP, SDLK_LCTRL):
-            if self.state in (self.RIGHT_ATTACK,):
-                self.state = self.RIGHT_STAND
-            if self.state in (self.LEFT_ATTACK,):
-                self.state = self.LEFT_STAND
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LALT):
             if self.state in (self.RIGHT_STAND,):
                 self.temp = self.y
@@ -103,6 +127,13 @@ class Character:
             if self.state in (self.LEFT_STAND,):
                 self.temp = self.y
                 self.state = self.LEFT_JUMP
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
+            if self.state in (self.RIGHT_WALK, self.RIGHT_STAND):
+                self.b_skill = True
+                self.state = self.RIGHT_ATTACK
+            if self.state in (self.LEFT_WALK, self.LEFT_STAND):
+                self.b_skill = True
+                self.state = self.LEFT_ATTACK
 
 
     def draw_bb(self):
