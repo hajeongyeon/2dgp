@@ -3,7 +3,7 @@ from pico2d import *
 import Game_Framework
 import Stage1_State
 
-from Collision import collide
+from Collision import cap_collide, cag_collide
 from Character import Character
 from Background import WaitingBackground
 from Bullets import Attack, Skill
@@ -51,7 +51,7 @@ def handle_events(frame_time):
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 Game_Framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_UP):
-                if collide(character, background):
+                if cap_collide(character, background):
                     Game_Framework.change_state(Stage1_State)
             else:
                 character.handle_event(event)
@@ -69,6 +69,9 @@ def update(frame_time):
     for attack in bullets:
         attack.update(frame_time)
 
+    if cag_collide(character, background):
+        character.ground_collide()
+
 
 def draw(frame_time):
     clear_canvas()
@@ -78,8 +81,10 @@ def draw(frame_time):
 
     for attack in bullets:
         attack.draw()
+        attack.draw_bb()
     for skill in skills:
         skill.draw()
+        skill.draw_bb()
 
     background.draw_bb()
     character.draw_bb()

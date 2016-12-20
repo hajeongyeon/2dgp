@@ -27,6 +27,9 @@ class ZakumBody:
         if ZakumBody.image == None:
             ZakumBody.image = load_image('resource/zakum_body.png')
 
+    def get_bb(self):
+        return 400, 160, 600, 525
+
 
     def update(self, frame_time):
         self.life_time += frame_time
@@ -36,6 +39,10 @@ class ZakumBody:
 
     def draw(self):
         self.image.clip_draw(self.frame * 419, 0, 415, 400, self.x, self.y)
+
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
 
 class ZakumArm1:
@@ -63,6 +70,10 @@ class ZakumArm1:
             ZakumArm1.image = load_image('resource/zakum_arm1.png')
 
 
+    def get_bb(self):
+        return 485, 345, 770, 575
+
+
     def update(self, frame_time):
         self.life_time += frame_time
         self.total_frames += ZakumArm1.FRAMES_PER_ACTION * ZakumArm1.ACTION_PER_TIME * frame_time
@@ -71,6 +82,11 @@ class ZakumArm1:
 
     def draw(self):
         self.image.clip_draw(self.frame * 301, 0, 301, 237, self.x, self.y)
+
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
 
 
 class ZakumArm2:
@@ -97,6 +113,11 @@ class ZakumArm2:
         if ZakumArm2.image == None:
             ZakumArm2.image = load_image('resource/zakum_arm2.png')
 
+    def get_bb(self):
+        return 515, 305, 800, 535
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
     def update(self, frame_time):
         self.life_time += frame_time
@@ -131,6 +152,12 @@ class ZakumArm3:
         self.hp = 200000
         if ZakumArm3.image == None:
             ZakumArm3.image = load_image('resource/zakum_arm3.png')
+
+    def get_bb(self):
+        return 515, 255, 800, 485
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
 
     def update(self, frame_time):
@@ -168,6 +195,14 @@ class ZakumArm4:
             ZakumArm4.image = load_image('resource/zakum_arm4.png')
 
 
+    def get_bb(self):
+        return 515, 185, 800, 415
+
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
+
     def update(self, frame_time):
         self.life_time += frame_time
         self.total_frames += ZakumArm4.FRAMES_PER_ACTION * ZakumArm4.ACTION_PER_TIME * frame_time
@@ -201,6 +236,14 @@ class ZakumArm5:
         self.hp = 200000
         if ZakumArm5.image == None:
             ZakumArm5.image = load_image('resource/zakum_arm5.png')
+
+
+    def get_bb(self):
+        return 235, 345, 520, 575
+
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
 
     def update(self, frame_time):
@@ -238,6 +281,14 @@ class ZakumArm6:
             ZakumArm6.image = load_image('resource/zakum_arm6.png')
 
 
+    def get_bb(self):
+        return 215, 305, 500, 535
+
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
+
     def update(self, frame_time):
         self.life_time += frame_time
         self.total_frames += ZakumArm6.FRAMES_PER_ACTION * ZakumArm6.ACTION_PER_TIME * frame_time
@@ -273,6 +324,14 @@ class ZakumArm7:
             ZakumArm7.image = load_image('resource/zakum_arm7.png')
 
 
+    def get_bb(self):
+        return 215, 255, 500, 485
+
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
+
     def update(self, frame_time):
         self.life_time += frame_time
         self.total_frames += ZakumArm7.FRAMES_PER_ACTION * ZakumArm7.ACTION_PER_TIME * frame_time
@@ -306,6 +365,14 @@ class ZakumArm8:
         self.hp = 200000
         if ZakumArm8.image == None:
             ZakumArm8.image = load_image('resource/zakum_arm8.png')
+
+
+    def get_bb(self):
+        return 215, 185, 500, 415
+
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
 
     def update(self, frame_time):

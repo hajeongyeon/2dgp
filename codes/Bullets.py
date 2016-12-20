@@ -28,12 +28,19 @@ class Attack:
         if Attack.image == None:
             Attack.image = load_image('resource/bullet.png')
 
+
+    def get_bb(self):
+        return self.x - 7, self.y - 7, self.x + 7, self.y + 7
+
     def update(self, frame_time):
         speed = Attack.ATTACK_SPEED_PPS * frame_time
         self.x += (self.dir * speed)
 
     def draw(self):
         self.image.clip_draw(0, 0, 13, 13, self.x, self.y)
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
 
 
@@ -77,3 +84,9 @@ class Skill:
 
     def draw(self):
         self.image.clip_draw(self.frame * 70, self.cstate * 50, 70, 50, self.x, self.y)
+
+    def get_bb(self):
+        return self.x - 30, self.y - 20, self.x + 30, self.y + 20
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
