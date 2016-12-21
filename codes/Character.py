@@ -13,6 +13,8 @@ class Character:
 
 
     image = None
+    gameover = None
+    gameclear = None
 
 
     LEFT_STAND, RIGHT_STAND, LEFT_WALK, RIGHT_WALK, LEFT_ATTACK, RIGHT_ATTACK = 0, 1, 2, 3, 4, 5
@@ -20,7 +22,7 @@ class Character:
 
 
     def __init__(self):
-        self.x, self.y = 450, 120
+        self.x, self.y = 100, 120
         #
         self.frame = 0
         self.life_time = 0.0
@@ -39,8 +41,15 @@ class Character:
         self.b_jump = False
         #
         self.b_skill = False
+        #
+        self.death = False
+        self.clear = False
         if Character.image == None:
             Character.image = load_image('resource/character.png')
+        if Character.gameover == None:
+            Character.gameover = load_image('resource/gameover.png')
+        if Character.gameclear == None:
+            Character.gameclear = load_image('resource/gameclear.png')
 
 
     def update(self, frame_time):
@@ -93,10 +102,21 @@ class Character:
                     self.state = self.RIGHT_STAND
                 elif self.state == self.LEFT_ATTACK:
                     self.state = self.LEFT_STAND
+        #
+        if self.death == True:
+            if self.state in (self.RIGHT_WALK, self.RIGHT_STAND, self.RIGHT_ATTACK, self.RIGHT_JUMP):
+                self.state = self.RIGHT_DEATH
+            if self.state in (self.LEFT_WALK, self.LEFT_STAND, self.LEFT_ATTACK, self.LEFT_JUMP):
+                self.state = self.LEFT_DEATH
+
 
 
     def draw(self):
         self.image.clip_draw(self.frame * 85, self.state * 85, 85, 85, self.x, self.y)
+        if self.death == True:
+            self.gameover.draw(550, 300)
+        if self.clear == True:
+            self.gameclear.draw(550, 300)
 
 
     def get_bb(self):

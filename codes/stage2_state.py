@@ -3,35 +3,48 @@ from pico2d import *
 import Game_Framework
 import Main_State
 
-from Collision import caf1_collide2, caf2_collide2, caf3_collide2, caf4_collide2, caf5_collide2, caf6_collide2, caf7_collide2, caf8_collide2, caf9_collide2, caf10_collide2, caza1_collide, caza2_collide, caza3_collide, caza4_collide, caza5_collide, caza6_collide, caza7_collide, caza8_collide
+from Collision import *
 from Background import Stage2Background
-from Zakum import ZakumBody, ZakumArm1, ZakumArm2, ZakumArm3, ZakumArm4, ZakumArm5, ZakumArm6, ZakumArm7, ZakumArm8, ZakumSkillEffect1, ZakumSkillEffect2
+from Zakum import *
 from Character import Character
+from Bullets import Attack, Skill
+
 
 name = "Stage2"
 background = None
 character = None
 running = True
 font = None
+zakumarm1 = list()
+zakumarm2 = list()
+zakumarm3 = list()
+zakumarm4 = list()
+zakumarm5 = list()
+zakumarm6 = list()
+zakumarm7 = list()
+zakumarm8 = list()
+zakumbody = list()
 
 
 def enter():
     global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
-    global zskill1, zskill2, font
+    global zskill1, zskill2, font, skills, bullets
 
     background = Stage2Background()
-    zakumarm1 = ZakumArm1()
-    zakumarm2 = ZakumArm2()
-    zakumarm3 = ZakumArm3()
-    zakumarm4 = ZakumArm4()
-    zakumarm5 = ZakumArm5()
-    zakumarm6 = ZakumArm6()
-    zakumarm7 = ZakumArm7()
-    zakumarm8 = ZakumArm8()
-    zakumbody = ZakumBody()
+    zakumarm1.append(ZakumArm1())
+    zakumarm2.append(ZakumArm2())
+    zakumarm3.append(ZakumArm3())
+    zakumarm4.append(ZakumArm4())
+    zakumarm5.append(ZakumArm5())
+    zakumarm6.append(ZakumArm6())
+    zakumarm7.append(ZakumArm7())
+    zakumarm8.append(ZakumArm8())
+    zakumbody.append(ZakumBody())
     character = Character()
     zskill1 = [ZakumSkillEffect1() for i in range(5)]
     zskill2 = [ZakumSkillEffect2() for j in range(5)]
+    skills = []
+    bullets = []
 
     font = load_font('ENCR10B.TTF', 20)
 
@@ -39,7 +52,7 @@ def enter():
 
 def exit():
     global background, character, zakumbody, zakumarm1, zakumarm2, zakumarm3, zakumarm4, zakumarm5, zakumarm6, zakumarm7, zakumarm8
-    global zskill1, zskill2
+    global zskill1, zskill2, skills, bullets
 
     del(background)
     del(zakumarm1)
@@ -54,14 +67,22 @@ def exit():
     del(character)
     del(zskill1)
     del(zskill2)
+    del(skills)
+    del(bullets)
 
 
-def pause():
-    pass
+def shooting():
+    global bullets
+    bullets.append(Attack(character.x, character.y, character.state))
 
 
-def resume():
-    pass
+def skill():
+    global skills
+    skills.append(Skill(character.x, character.y, character.state))
+
+
+def gameclear():
+    character.clear = True
 
 
 def handle_events(frame_time):
@@ -72,28 +93,52 @@ def handle_events(frame_time):
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 Game_Framework.quit()
-            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_a):
-                Game_Framework.change_state(Main_State)
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_RETURN):
+                if character.death == True:
+                    Game_Framework.change_state(Main_State)
+                if character.clear == True:
+                    Game_Framework.change_state(Main_State)
             else:
                 character.handle_event(event)
+                if character.b_attack == True:
+                    shooting()
+                elif character.b_skill == True:
+                    skill()
 
 
 def update(frame_time):
-    zakumarm1.update(frame_time)
-    zakumarm2.update(frame_time)
-    zakumarm3.update(frame_time)
-    zakumarm4.update(frame_time)
-    zakumarm5.update(frame_time)
-    zakumarm6.update(frame_time)
-    zakumarm7.update(frame_time)
-    zakumarm8.update(frame_time)
-    zakumbody.update(frame_time)
     character.update(frame_time)
+
+    for zakumarm1_ in zakumarm1:
+        zakumarm1_.update(frame_time)
+    for zakumarm2_ in zakumarm2:
+        zakumarm2_.update(frame_time)
+    for zakumarm3_ in zakumarm3:
+        zakumarm3_.update(frame_time)
+    for zakumarm4_ in zakumarm4:
+        zakumarm4_.update(frame_time)
+    for zakumarm5_ in zakumarm5:
+        zakumarm5_.update(frame_time)
+    for zakumarm6_ in zakumarm6:
+        zakumarm6_.update(frame_time)
+    for zakumarm7_ in zakumarm7:
+        zakumarm7_.update(frame_time)
+    for zakumarm8_ in zakumarm8:
+        zakumarm8_.update(frame_time)
+    for zakumbody_ in zakumbody:
+        zakumbody_.update(frame_time)
+
     for i in zskill1:
         i.update(frame_time)
     for j in zskill2:
         j.update(frame_time)
 
+    for fire in skills:
+        fire.update(frame_time)
+    for attack in bullets:
+        attack.update(frame_time)
+
+    # character and foothold collide
     if caf1_collide2(character, background):
         character.foothold1_collide2()
     if caf2_collide2(character, background):
@@ -115,22 +160,152 @@ def update(frame_time):
     if caf10_collide2(character, background):
         character.foothold10_collide2()
 
-    if caza1_collide(character, zakumarm1):
-        character.hp -= 30
-    if caza2_collide(character, zakumarm2):
-        character.hp -= 30
-    if caza3_collide(character, zakumarm3):
-        character.hp -= 30
-    if caza4_collide(character, zakumarm4):
-        character.hp -= 30
-    if caza5_collide(character, zakumarm5):
-        character.hp -= 30
-    if caza6_collide(character, zakumarm6):
-        character.hp -= 30
-    if caza7_collide(character, zakumarm7):
-        character.hp -= 30
-    if caza8_collide(character, zakumarm8):
-        character.hp -= 30
+    # character and zakum collide
+    for zakumarm1_ in zakumarm1:
+        if caza1_collide(character, zakumarm1_):
+            character.hp -= 30
+    for zakumarm2_ in zakumarm2:
+        if caza2_collide(character, zakumarm2_):
+            character.hp -= 30
+    for zakumarm3_ in zakumarm3:
+        if caza3_collide(character, zakumarm3_):
+            character.hp -= 30
+    for zakumarm4_ in zakumarm4:
+        if caza4_collide(character, zakumarm4_):
+            character.hp -= 30
+    for zakumarm5_ in zakumarm5:
+        if caza5_collide(character, zakumarm5_):
+            character.hp -= 30
+    for zakumarm6_ in zakumarm6:
+        if caza6_collide(character, zakumarm6_):
+            character.hp -= 30
+    for zakumarm7_ in zakumarm7:
+        if caza7_collide(character, zakumarm7_):
+            character.hp -= 30
+    for zakumarm8_ in zakumarm8:
+        if caza8_collide(character, zakumarm8_):
+            character.hp -= 30
+    for zakumbody_ in zakumbody:
+        if cazb_collide(character, zakumbody_):
+            character.hp -= 30
+
+    if character.hp <= 0:
+        character.death = True
+
+    # bullet and zakum collide
+    for bullet in bullets:
+        for zakumarm1_ in zakumarm1:
+            if baza1_collide(bullet, zakumarm1_):
+                zakumarm1_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumarm2_ in zakumarm2:
+            if baza2_collide(bullet, zakumarm2_):
+                zakumarm2_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumarm3_ in zakumarm3:
+            if baza3_collide(bullet, zakumarm3_):
+                zakumarm3_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumarm4_ in zakumarm4:
+            if baza4_collide(bullet, zakumarm4_):
+                zakumarm4_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumarm5_ in zakumarm5:
+            if baza5_collide(bullet, zakumarm5_):
+                zakumarm5_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumarm6_ in zakumarm6:
+            if baza6_collide(bullet, zakumarm6_):
+                zakumarm6_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumarm7_ in zakumarm7:
+            if baza7_collide(bullet, zakumarm7_):
+                zakumarm7_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumarm8_ in zakumarm8:
+            if baza8_collide(bullet, zakumarm8_):
+                zakumarm8_.hp -= 100000
+                bullets.remove(bullet)
+        for zakumbody_ in zakumbody:
+            if bazb_collide(bullet, zakumbody_):
+                zakumbody_.hp -= 100000
+                bullets.remove(bullet)
+
+        # skill and zakum collide
+    for fire in skills:
+        for zakumarm1_ in zakumarm1:
+            if saza1_collide(fire, zakumarm1_):
+                zakumarm1_.hp -= 100000
+                skills.remove(fire)
+        for zakumarm2_ in zakumarm2:
+            if saza2_collide(fire, zakumarm2_):
+                zakumarm2_.hp -= 100000
+                skills.remove(fire)
+        for zakumarm3_ in zakumarm3:
+            if saza3_collide(fire, zakumarm3_):
+                zakumarm3_.hp -= 100000
+                skills.remove(fire)
+        for zakumarm4_ in zakumarm4:
+            if saza4_collide(fire, zakumarm4_):
+                zakumarm4_.hp -= 100000
+                skills.remove(fire)
+        for zakumarm5_ in zakumarm5:
+            if saza5_collide(fire, zakumarm5_):
+                zakumarm5_.hp -= 100000
+                skills.remove(fire)
+        for zakumarm6_ in zakumarm6:
+            if saza6_collide(fire, zakumarm6_):
+                zakumarm6_.hp -= 100000
+                skills.remove(fire)
+        for zakumarm7_ in zakumarm7:
+            if saza7_collide(fire, zakumarm7_):
+                zakumarm7_.hp -= 100000
+                skills.remove(fire)
+        for zakumarm8_ in zakumarm8:
+            if saza8_collide(fire, zakumarm8_):
+                zakumarm8_.hp -= 100000
+                skills.remove(fire)
+        for zakumbody_ in zakumbody:
+            if sazb_collide(fire, zakumbody_):
+                zakumbody_.hp -= 100000
+                skills.remove(fire)
+
+    for zakumarm1_ in zakumarm1:
+        if zakumarm1_.hp <= 0:
+            zakumarm1_.death = True
+            zakumarm1.remove(zakumarm1_)
+    for zakumarm2_ in zakumarm2:
+        if zakumarm2_.hp <= 0:
+            zakumarm2_.death = True
+            zakumarm2.remove(zakumarm2_)
+    for zakumarm3_ in zakumarm3:
+        if zakumarm3_.hp <= 0:
+            zakumarm3_.death = True
+            zakumarm3.remove(zakumarm3_)
+    for zakumarm4_ in zakumarm4:
+        if zakumarm4_.hp <= 0:
+            zakumarm4_.death = True
+            zakumarm4.remove(zakumarm4_)
+    for zakumarm5_ in zakumarm5:
+        if zakumarm5_.hp <= 0:
+            zakumarm5_.death = True
+            zakumarm5.remove(zakumarm5_)
+    for zakumarm6_ in zakumarm6:
+        if zakumarm6_.hp <= 0:
+            zakumarm6_.death = True
+            zakumarm6.remove(zakumarm6_)
+    for zakumarm7_ in zakumarm7:
+        if zakumarm7_.hp <= 0:
+            zakumarm7_.death = True
+            zakumarm7.remove(zakumarm7_)
+    for zakumarm8_ in zakumarm8:
+        if zakumarm8_.hp <= 0:
+            zakumarm8_.death = True
+            zakumarm8.remove(zakumarm8_)
+    for zakumbody_ in zakumbody:
+        if zakumbody_.hp <= 0:
+            zakumbody.remove(zakumbody_)
+            gameclear()
 
 
 def draw(frame_time):
@@ -141,34 +316,55 @@ def draw(frame_time):
     for j in zskill2:
         j.draw()
 
-    zakumarm1.draw_bb()
-    zakumarm2.draw_bb()
-    zakumarm3.draw_bb()
-    zakumarm4.draw_bb()
-    zakumarm5.draw_bb()
-    zakumarm6.draw_bb()
-    zakumarm7.draw_bb()
-    zakumarm8.draw_bb()
-
     background.draw()
+    for zakumarm1_ in zakumarm1:
+        zakumarm1_.draw()
+    for zakumarm2_ in zakumarm2:
+        zakumarm2_.draw()
+    for zakumarm3_ in zakumarm3:
+        zakumarm3_.draw()
+    for zakumarm4_ in zakumarm4:
+        zakumarm4_.draw()
+    for zakumarm5_ in zakumarm5:
+        zakumarm5_.draw()
+    for zakumarm6_ in zakumarm6:
+        zakumarm6_.draw()
+    for zakumarm7_ in zakumarm7:
+        zakumarm7_.draw()
+    for zakumarm8_ in zakumarm8:
+        zakumarm8_.draw()
+    for zakumbody_ in zakumbody:
+        zakumbody_.draw()
     character.draw()
 
-    zakumarm1.draw()
-    zakumarm2.draw()
-    zakumarm3.draw()
-    zakumarm4.draw()
-    zakumarm5.draw()
-    zakumarm6.draw()
-    zakumarm7.draw()
-    zakumarm8.draw()
-    zakumbody.draw()
-
     background.draw_bb()
+    for zakumarm1_ in zakumarm1:
+        zakumarm1_.draw_bb()
+    for zakumarm2_ in zakumarm2:
+        zakumarm2_.draw_bb()
+    for zakumarm3_ in zakumarm3:
+        zakumarm3_.draw_bb()
+    for zakumarm4_ in zakumarm4:
+        zakumarm4_.draw_bb()
+    for zakumarm5_ in zakumarm5:
+        zakumarm5_.draw_bb()
+    for zakumarm6_ in zakumarm6:
+        zakumarm6_.draw_bb()
+    for zakumarm7_ in zakumarm7:
+        zakumarm7_.draw_bb()
+    for zakumarm8_ in zakumarm8:
+        zakumarm8_.draw_bb()
+    for zakumbody_ in zakumbody:
+        zakumbody_.draw_bb()
     character.draw_bb()
 
-    zakumbody.draw_bb()
+    for attack in bullets:
+        attack.draw()
+        attack.draw_bb()
+    for skill in skills:
+        skill.draw()
+        skill.draw_bb()
 
-
-    font.draw(character.x - 30, character.y + 40, 'hp : %4d' % character.hp)
+    font.draw(character.x - 30, character.y + 40, 'hp : %d' % character.hp)
 
     update_canvas()

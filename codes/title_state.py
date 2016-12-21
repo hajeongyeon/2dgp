@@ -1,5 +1,6 @@
 import Game_Framework
 import Main_State
+import Howtoplay_State
 from pico2d import *
 
 
@@ -27,6 +28,8 @@ def handle_events(frame_time):
                 Game_Framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
                 Game_Framework.change_state(Main_State)
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_F1):
+                Game_Framework.change_state(Howtoplay_State)
 
 
 

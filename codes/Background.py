@@ -9,6 +9,9 @@ class WaitingBackground:
             WaitingBackground.background = load_image('resource/map_waiting.png')
         if WaitingBackground.portal == None:
             WaitingBackground.portal = load_image('resource/portal.png')
+        self.bgm = load_music('sound/Waiting.mp3')
+        self.bgm.set_volume(64)
+        self.bgm.repeat_play()
 
     def draw(self):
         self.background.draw(550, 300)
@@ -40,7 +43,10 @@ class Stage1Background:
         if Stage1Background.portal == None:
             Stage1Background.portal = load_image('resource/portal.png')
         if Stage1Background.foothold == None:
-            Stage1Background.foothold = load_image('resource/foothold.png')
+            Stage1Background.foothold = load_image('resource/stage1foothold.png')
+        self.bgm = load_music('sound/Stage1.mp3')
+        self.bgm.set_volume(64)
+        self.bgm.repeat_play()
 
         self.speed = 0
         self.left = 0
@@ -147,6 +153,9 @@ class Stage2Background:
             Stage2Background.background = load_image('resource/map_stage2.png')
         if Stage2Background.foothold == None:
             Stage2Background.foothold = load_image('resource/stage2foothold.png')
+        self.bgm = load_music('sound/Stage2.mp3')
+        self.bgm.set_volume(64)
+        self.bgm.repeat_play()
 
 
     def draw(self):
