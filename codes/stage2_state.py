@@ -172,51 +172,51 @@ def update(frame_time):
     for character_ in character:
         for zakumarm1_ in zakumarm1:
             if caza1_collide(character_, zakumarm1_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumarm2_ in zakumarm2:
             if caza2_collide(character_, zakumarm2_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumarm3_ in zakumarm3:
             if caza3_collide(character_, zakumarm3_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumarm4_ in zakumarm4:
             if caza4_collide(character_, zakumarm4_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumarm5_ in zakumarm5:
             if caza5_collide(character_, zakumarm5_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumarm6_ in zakumarm6:
             if caza6_collide(character_, zakumarm6_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumarm7_ in zakumarm7:
             if caza7_collide(character_, zakumarm7_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumarm8_ in zakumarm8:
             if caza8_collide(character_, zakumarm8_):
-                character_.hp -= 30
+                character_.hp -= 3
         for zakumbody_ in zakumbody:
             if cazb_collide(character_, zakumbody_):
-                character_.hp -= 30
+                character_.hp -= 3
             if zakumbody_.tf_skill1 == True:
                 if zakumbody_.skilltime >= 0.65:
                     if skill1_collide1(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 5
                     if skill1_collide2(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 5
                     if skill1_collide3(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 5
                     if skill1_collide4(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 5
             if zakumbody_.tf_skill2 == True:
                 if zakumbody_.skilltime >= 0.65:
                     if skill2_collide1(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 7
                     if skill2_collide2(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 7
                     if skill2_collide3(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 7
                     if skill2_collide4(character_, zakumbody_):
-                        character_.hp -= 100
+                        character_.hp -= 7
 
     for character_ in character:
         if character_.hp <= 0:
@@ -260,78 +260,78 @@ def update(frame_time):
     for bullet in bullets:
         for zakumarm1_ in zakumarm1:
             if baza1_collide(bullet, zakumarm1_):
-                zakumarm1_.hp -= 100000
+                zakumarm1_.hp -= 10000
                 bullets.remove(bullet)
         for zakumarm2_ in zakumarm2:
             if baza2_collide(bullet, zakumarm2_):
-                zakumarm2_.hp -= 100000
+                zakumarm2_.hp -= 10000
                 bullets.remove(bullet)
         for zakumarm3_ in zakumarm3:
             if baza3_collide(bullet, zakumarm3_):
-                zakumarm3_.hp -= 100000
+                zakumarm3_.hp -= 10000
                 bullets.remove(bullet)
         for zakumarm4_ in zakumarm4:
             if baza4_collide(bullet, zakumarm4_):
-                zakumarm4_.hp -= 100000
+                zakumarm4_.hp -= 10000
                 bullets.remove(bullet)
         for zakumarm5_ in zakumarm5:
             if baza5_collide(bullet, zakumarm5_):
-                zakumarm5_.hp -= 100000
+                zakumarm5_.hp -= 10000
                 bullets.remove(bullet)
         for zakumarm6_ in zakumarm6:
             if baza6_collide(bullet, zakumarm6_):
-                zakumarm6_.hp -= 100000
+                zakumarm6_.hp -= 10000
                 bullets.remove(bullet)
         for zakumarm7_ in zakumarm7:
             if baza7_collide(bullet, zakumarm7_):
-                zakumarm7_.hp -= 100000
+                zakumarm7_.hp -= 10000
                 bullets.remove(bullet)
         for zakumarm8_ in zakumarm8:
             if baza8_collide(bullet, zakumarm8_):
-                zakumarm8_.hp -= 100000
+                zakumarm8_.hp -= 10000
                 bullets.remove(bullet)
         for zakumbody_ in zakumbody:
             if bazb_collide(bullet, zakumbody_):
-                zakumbody_.hp -= 100000
+                zakumbody_.hp -= 10000
                 bullets.remove(bullet)
 
         # skill and zakum collide
     for fire in skills:
         for zakumarm1_ in zakumarm1:
             if saza1_collide(fire, zakumarm1_):
-                zakumarm1_.hp -= 100000
+                zakumarm1_.hp -= 20000
                 skills.remove(fire)
         for zakumarm2_ in zakumarm2:
             if saza2_collide(fire, zakumarm2_):
-                zakumarm2_.hp -= 100000
+                zakumarm2_.hp -= 20000
                 skills.remove(fire)
         for zakumarm3_ in zakumarm3:
             if saza3_collide(fire, zakumarm3_):
-                zakumarm3_.hp -= 100000
+                zakumarm3_.hp -= 20000
                 skills.remove(fire)
         for zakumarm4_ in zakumarm4:
             if saza4_collide(fire, zakumarm4_):
-                zakumarm4_.hp -= 100000
+                zakumarm4_.hp -= 20000
                 skills.remove(fire)
         for zakumarm5_ in zakumarm5:
             if saza5_collide(fire, zakumarm5_):
-                zakumarm5_.hp -= 100000
+                zakumarm5_.hp -= 20000
                 skills.remove(fire)
         for zakumarm6_ in zakumarm6:
             if saza6_collide(fire, zakumarm6_):
-                zakumarm6_.hp -= 100000
+                zakumarm6_.hp -= 20000
                 skills.remove(fire)
         for zakumarm7_ in zakumarm7:
             if saza7_collide(fire, zakumarm7_):
-                zakumarm7_.hp -= 100000
+                zakumarm7_.hp -= 20000
                 skills.remove(fire)
         for zakumarm8_ in zakumarm8:
             if saza8_collide(fire, zakumarm8_):
-                zakumarm8_.hp -= 100000
+                zakumarm8_.hp -= 20000
                 skills.remove(fire)
         for zakumbody_ in zakumbody:
             if sazb_collide(fire, zakumbody_):
-                zakumbody_.hp -= 100000
+                zakumbody_.hp -= 20000
                 skills.remove(fire)
 
 
@@ -361,37 +361,37 @@ def draw(frame_time):
     for character_ in character:
         character_.draw()
 
-    background.draw_bb()
-    for zakumarm1_ in zakumarm1:
-        zakumarm1_.draw_bb()
-    for zakumarm2_ in zakumarm2:
-        zakumarm2_.draw_bb()
-    for zakumarm3_ in zakumarm3:
-        zakumarm3_.draw_bb()
-    for zakumarm4_ in zakumarm4:
-        zakumarm4_.draw_bb()
-    for zakumarm5_ in zakumarm5:
-        zakumarm5_.draw_bb()
-    for zakumarm6_ in zakumarm6:
-        zakumarm6_.draw_bb()
-    for zakumarm7_ in zakumarm7:
-        zakumarm7_.draw_bb()
-    for zakumarm8_ in zakumarm8:
-        zakumarm8_.draw_bb()
-    for zakumbody_ in zakumbody:
-        zakumbody_.draw_bb()
+    #background.draw_bb()
+    #for zakumarm1_ in zakumarm1:
+        #zakumarm1_.draw_bb()
+    #for zakumarm2_ in zakumarm2:
+        #zakumarm2_.draw_bb()
+    #for zakumarm3_ in zakumarm3:
+        #zakumarm3_.draw_bb()
+    #for zakumarm4_ in zakumarm4:
+        #zakumarm4_.draw_bb()
+    #for zakumarm5_ in zakumarm5:
+        #zakumarm5_.draw_bb()
+    #for zakumarm6_ in zakumarm6:
+        #zakumarm6_.draw_bb()
+    #for zakumarm7_ in zakumarm7:
+        #zakumarm7_.draw_bb()
+    #for zakumarm8_ in zakumarm8:
+        #zakumarm8_.draw_bb()
+    #for zakumbody_ in zakumbody:
+        #zakumbody_.draw_bb()
 
-    for character_ in character:
-        character_.draw_bb()
+    #for character_ in character:
+        #character_.draw_bb()
 
     for attack in bullets:
         attack.draw()
-        attack.draw_bb()
+        #attack.draw_bb()
     for skill in skills:
         skill.draw()
-        skill.draw_bb()
+        #skill.draw_bb()
 
-    for character_ in character:
-        font.draw(character_.x - 30, character_.y + 40, 'hp : %d' % character_.hp)
+    #for character_ in character:
+        #font.draw(character_.x - 30, character_.y + 40, 'hp : %d' % character_.hp)
 
     update_canvas()

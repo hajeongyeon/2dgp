@@ -59,8 +59,8 @@ def draw(frame_time):
     for character_ in character:
         character_.draw()
 
-    background.draw_bb()
-    for character_ in character:
-        character_.draw_bb()
+    #background.draw_bb()
+    #for character_ in character:
+        #character_.draw_bb()
 
     update_canvas()

@@ -33,7 +33,7 @@ class Character:
         self.temp = 0
         self.alert_frames = 0
         self.hp = 5000
-        self.mp = 3000
+        self.mp = 5000
         #
         self.a_time = 0
         self.b_attack = False
