@@ -1,7 +1,9 @@
 Ha JeongYeon
-1995.04.24
 
-Korea Polytechnic University Game Engineering
+Korea Polytechnic University 
+Department of Game Engineering
 
-2016-2
-2D Game Programming
+2016-2 2D Game Programming
+term project : Zakum
+
+If you have any question, please contact me. -> hjy---@hanmail.net
