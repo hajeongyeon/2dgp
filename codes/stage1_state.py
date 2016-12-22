@@ -3,22 +3,23 @@ from pico2d import *
 import Game_Framework
 import Stage2_State
 
-from Collision import cap_collide, caf1_collide, caf2_collide, caf3_collide, caf4_collide, caf5_collide, caf6_collide, caf7_collide, caf8_collide, caf9_collide, caf10_collide
+from Collision import *
 from Background import *
 from Character import Character
 
 name = "Stage1"
 background = None
-character = None
+character = list()
 
 
 def create_world():
     global background, character
 
-    character = Character()
     background = Stage1Background()
+    character.append(Character(background.cx, background.cy))
 
-    background.set_center_object(character)
+    for character_ in character:
+        background.set_center_object(character_)
 
 
 def destroy_world():
@@ -46,46 +47,59 @@ def handle_events(frame_time):
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 Game_Framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_UP):
-                if cap_collide(character, background):
-                    Game_Framework.change_state(Stage2_State)
+                for character_ in character:
+                    if cap_collide(character_, background):
+                        Game_Framework.change_state(Stage2_State)
             else:
-                character.handle_event(event)
+                for character_ in character:
+                    character_.handle_event(event)
                 background.handle_event(event)
 
 
 def update(frame_time):
-    character.update(frame_time)
     background.update(frame_time)
 
-    if caf1_collide(character, background):
-        character.foothold1_collide()
-    if caf2_collide(character, background):
-        character.foothold2_collide()
-    if caf3_collide(character, background):
-        character.foothold3_collide()
-    if caf4_collide(character, background):
-        character.foothold4_collide()
-    if caf5_collide(character, background):
-        character.foothold5_collide()
-    if caf6_collide(character, background):
-        character.foothold6_collide()
-    if caf7_collide(character, background):
-        character.foothold7_collide()
-    if caf8_collide(character, background):
-        character.foothold8_collide()
-    if caf9_collide(character, background):
-        character.foothold9_collide()
-    if caf10_collide(character, background):
-        character.foothold10_collide()
+    for character_ in character:
+        character_.update(frame_time)
+
+    for character_ in character:
+        if caf1_collide(character_, background):
+            character_.foothold1_collide()
+        if caf2_collide(character_, background):
+            character_.foothold2_collide()
+        if caf3_collide(character_, background):
+            character_.foothold3_collide()
+        if caf4_collide(character_, background):
+            character_.foothold4_collide()
+        if caf5_collide(character_, background):
+            character_.foothold5_collide()
+        if caf6_collide(character_, background):
+            character_.foothold6_collide()
+        if caf7_collide(character_, background):
+            character_.foothold7_collide()
+        if caf8_collide(character_, background):
+            character_.foothold8_collide()
+        if caf9_collide(character_, background):
+            character_.foothold9_collide()
+        if caf10_collide(character_, background):
+            character_.foothold10_collide()
+        if cag1_collide(character_, background):
+            character_.ground1_collide()
+        if cag2_collide(character_, background):
+            character_.ground2_collide()
+        if cag3_collide(character_, background):
+            character_.ground3_collide()
 
 
 def draw(frame_time):
     clear_canvas()
 
     background.draw()
-    character.draw()
+    for character_ in character:
+        character_.draw()
 
     background.draw_bb()
-    character.draw_bb()
+    for character_ in character:
+        character_.draw_bb()
 
     update_canvas()

@@ -5,18 +5,21 @@ import random
 
 class ZakumBody:
     PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-    RUN_SPEED_KMPH = 20.0  # Km / Hour
-    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
-    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+    ZB_SPEED_KMPH = 20.0  # Km / Hour
+    ZB_SPEED_MPM = (ZB_SPEED_KMPH * 1000.0 / 60.0)
+    ZB_SPEED_MPS = (ZB_SPEED_MPM / 60.0)
+    ZB_SPEED_PPS = (ZB_SPEED_MPS * PIXEL_PER_METER)
 
     TIME_PER_ACTION = 0.5
     ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 4
+    FRAMES_PER_SKILL = 12
+    SKILL_PER_TIME = 1.0 / 1.5
 
 
     image = None
-    gameclear = None
+    skill1 = None
+    skill2 = None
 
 
     def __init__(self):
@@ -25,26 +28,108 @@ class ZakumBody:
         self.life_time = 0.0
         self.total_frames = 0.0
         self.hp = 900000
+        #
         self.death = False
+        #
+        self.skilltime = 0
+        self.skill1_frame = 0
+        self.skill2_frame = 0
+        self.tf_skill1 = False
+        self.tf_skill2 = False
+        self.total_skill1 = 0.0
+        self.total_skill2 = 0.0
+
         if ZakumBody.image == None:
             ZakumBody.image = load_image('resource/zakum_body.png')
+        if ZakumBody.skill1 == None:
+            ZakumBody.skill1 = load_image('resource/zakum_skill_effect1.png')
+        if ZakumBody.skill2 == None:
+            ZakumBody.skill2 = load_image('resource/zakum_skill_effect2.png')
 
     def get_bb(self):
         return 400, 160, 600, 525
-
 
     def update(self, frame_time):
         self.life_time += frame_time
         self.total_frames += ZakumBody.FRAMES_PER_ACTION * ZakumBody.ACTION_PER_TIME * frame_time
         self.frame = int(self.total_frames) % 4
+        self.skill1_frame = int(self.total_skill1) % 9
+        self.skill2_frame = int(self.total_skill2) % 7
 
+        if self.tf_skill1 == True:
+            self.total_skill1 += ZakumBody.FRAMES_PER_SKILL * ZakumBody.SKILL_PER_TIME * frame_time
+            self.skilltime += frame_time
+            if self.skilltime >= 1.0:
+                self.total_skill1 = 0
+                self.skilltime = 0
+                self.tf_skill1 = False
+
+        if self.tf_skill2 == True:
+            self.total_skill2 += ZakumBody.FRAMES_PER_SKILL * ZakumBody.SKILL_PER_TIME * frame_time
+            self.skilltime += frame_time
+            if self.skilltime >= 1.0:
+                self.total_skill2 = 0
+                self.skilltime = 0
+                self.tf_skill2 = False
+
+    def skilling1(self):
+        self.tf_skill1 = True
+
+    def skilling2(self):
+        self.tf_skill2 = True
 
     def draw(self):
         self.image.clip_draw(self.frame * 419, 0, 415, 400, self.x, self.y)
+        if self.tf_skill1 == True:
+            self.skill1.clip_draw(self.skill1_frame * 253, 0, 253, 474, 100, 300)
+            self.skill1.clip_draw(self.skill1_frame * 253, 0, 253, 474, 350, 300)
+            self.skill1.clip_draw(self.skill1_frame * 253, 0, 253, 474, 600, 300)
+            self.skill1.clip_draw(self.skill1_frame * 253, 0, 253, 474, 850, 300)
+        if self.tf_skill2 == True:
+            self.skill2.clip_draw(self.skill2_frame * 64, 0, 64, 474, 200, 300)
+            self.skill2.clip_draw(self.skill2_frame * 64, 0, 64, 474, 450, 300)
+            self.skill2.clip_draw(self.skill2_frame * 64, 0, 64, 474, 700, 300)
+            self.skill2.clip_draw(self.skill2_frame * 64, 0, 64, 474, 950, 300)
 
+    def get_skill_1(self):
+        if self.skilltime >= 0.65:
+            return 50, 100, 150, 200
+    def get_skill_2(self):
+        if self.skilltime >= 0.65:
+            return 250, 100, 350, 200
+    def get_skill_3(self):
+        if self.skilltime >= 0.65:
+            return 450, 100, 550, 200
+    def get_skill_4(self):
+        if self.skilltime >= 0.65:
+            return 650, 100, 750, 200
+    def get_skill_5(self):
+        if self.skilltime >= 0.65:
+            return 150, 100, 250, 580
+    def get_skill_6(self):
+        if self.skilltime >= 0.65:
+            return 350, 100, 450, 580
+    def get_skill_7(self):
+        if self.skilltime >= 0.65:
+            return 550, 100, 650, 580
+    def get_skill_8(self):
+        if self.skilltime >= 0.65:
+            return 750, 100, 850, 580
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
+        if self.tf_skill1 == True:
+            if self.skilltime >= 0.65:
+                draw_rectangle(*self.get_skill_1())
+                draw_rectangle(*self.get_skill_2())
+                draw_rectangle(*self.get_skill_3())
+                draw_rectangle(*self.get_skill_4())
+        if self.tf_skill2 == True:
+            if self.skilltime >= 0.65:
+                draw_rectangle(*self.get_skill_5())
+                draw_rectangle(*self.get_skill_6())
+                draw_rectangle(*self.get_skill_7())
+                draw_rectangle(*self.get_skill_8())
 
 
 class ZakumArm1:
@@ -74,7 +159,7 @@ class ZakumArm1:
 
 
     def get_bb(self):
-        return 485, 345, 485, 575
+        return 785, 345, 785, 575
 
 
     def update(self, frame_time):
@@ -118,7 +203,7 @@ class ZakumArm2:
             ZakumArm2.image = load_image('resource/zakum_arm2.png')
 
     def get_bb(self):
-        return 515, 305, 515, 535
+        return 815, 305, 815, 535
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
@@ -159,7 +244,7 @@ class ZakumArm3:
             ZakumArm3.image = load_image('resource/zakum_arm3.png')
 
     def get_bb(self):
-        return 520, 255, 520, 485
+        return 820, 255, 820, 485
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
@@ -202,7 +287,7 @@ class ZakumArm4:
 
 
     def get_bb(self):
-        return 525, 185, 525, 415
+        return 825, 185, 825, 415
 
 
     def draw_bb(self):
@@ -393,75 +478,3 @@ class ZakumArm8:
 
     def draw(self):
         self.image.clip_draw(self.frame * 330, 0, 330, 237, self.x, self.y)
-
-
-class ZakumSkillEffect1:
-    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-    RUN_SPEED_KMPH = 20.0  # Km / Hour
-    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
-    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
-    TIME_PER_ACTION = 1.0
-    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-    FRAMES_PER_ACTION = 9
-
-
-    image = None
-
-
-    def __init__(self):
-        self.x, self.y = random.randint(0, 1100), 330
-        self.frame = 0
-        self.life_time = 0.0
-        self.total_frames = 0.0
-        if ZakumSkillEffect1.image == None:
-            ZakumSkillEffect1.image = load_image('resource/zakum_skill_effect1.png')
-
-
-    def update(self, frame_time):
-        self.life_time += frame_time
-        self.total_frames += ZakumSkillEffect1.FRAMES_PER_ACTION * ZakumSkillEffect1.ACTION_PER_TIME * frame_time
-        self.frame = int(self.total_frames) % 9
-
-
-    def draw(self):
-        self.image.clip_draw(self.frame * 252, 0, 252, 474, self.x, self.y)
-        if self.frame == 8:
-            self.x = random.randint(0, 1100)
-
-
-class ZakumSkillEffect2:
-    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-    RUN_SPEED_KMPH = 20.0  # Km / Hour
-    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
-    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
-    TIME_PER_ACTION = 1.0
-    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-    FRAMES_PER_ACTION = 7
-
-
-    image = None
-
-
-    def __init__(self):
-        self.x, self.y = random.randint(0, 1100), 330
-        self.frame = 0
-        self.life_time = 0.0
-        self.total_frames = 0.0
-        if ZakumSkillEffect2.image == None:
-            ZakumSkillEffect2.image = load_image('resource/zakum_skill_effect2.png')
-
-
-    def update(self, frame_time):
-        self.life_time += frame_time
-        self.total_frames += ZakumSkillEffect2.FRAMES_PER_ACTION * ZakumSkillEffect2.ACTION_PER_TIME * frame_time
-        self.frame = int(self.total_frames) % 7
-
-
-    def draw(self):
-        self.image.clip_draw(self.frame * 63, 0, 63, 474, self.x, self.y)
-        if self.frame == 6:
-            self.x = random.randint(0, 1100)

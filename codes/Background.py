@@ -5,6 +5,9 @@ class WaitingBackground:
     portal = None
 
     def __init__(self):
+        self.x = 450
+        self.y = 130
+
         if WaitingBackground.background == None:
             WaitingBackground.background = load_image('resource/map_waiting.png')
         if WaitingBackground.portal == None:
@@ -38,6 +41,8 @@ class Stage1Background:
     foothold = None
 
     def __init__(self):
+        self.cx = 50
+        self.cy = 300
         if Stage1Background.background == None:
             Stage1Background.background = load_image('resource/map_stage1.png')
         if Stage1Background.portal == None:
@@ -83,9 +88,21 @@ class Stage1Background:
         self.frame = int(self.total_frames) % 5
         self.left = clamp(0, int(self.set_center_object.x) - self.canvas_width//10, self.w - self.canvas_width)
 
+    def ground1_get_bb(self):
+        sx = self.x - self.left
+        return 0 + sx, 180, 290 + sx, 180
+
+    def ground2_get_bb(self):
+        sx = self.x - self.left
+        return 0 + sx, 80, 2016 + sx, 80
+
+    def ground3_get_bb(self):
+        sx = self.x - self.left
+        return 1750 + sx, 115, 2016 + sx, 115
+
     def portal_get_bb(self):
         sx = self.x - self.left
-        return 1950 + sx, 105, 1980 + sx, 195
+        return 1950 + sx, 175, 1980 + sx, 175
 
     def foothold1_get_bb(self):
         sx = self.x - self.left
@@ -139,6 +156,9 @@ class Stage1Background:
         draw_rectangle(*self.foothold8_get_bb())
         draw_rectangle(*self.foothold9_get_bb())
         draw_rectangle(*self.foothold10_get_bb())
+        draw_rectangle(*self.ground1_get_bb())
+        draw_rectangle(*self.ground2_get_bb())
+        draw_rectangle(*self.ground3_get_bb())
 
     def handle_event(self, event):
         pass
@@ -149,6 +169,8 @@ class Stage2Background:
     foothold = None
 
     def __init__(self):
+        self.x = 50
+        self.y = 100
         if Stage2Background.background == None:
             Stage2Background.background = load_image('resource/map_stage2.png')
         if Stage2Background.foothold == None:
@@ -164,6 +186,8 @@ class Stage2Background:
         self.foothold.clip_draw(0, 0, 129, 45, 170, 230)
         self.foothold.clip_draw(0, 0, 129, 45, 1000, 330)
 
+    def ground_get_bb(self):
+        return 0, 100, 1100, 100
 
     def foothold1_get_bb(self):
         return 30, 178, 150, 178
@@ -197,6 +221,7 @@ class Stage2Background:
 
 
     def draw_bb(self):
+        draw_rectangle(*self.ground_get_bb())
         draw_rectangle(*self.foothold1_get_bb())
         draw_rectangle(*self.foothold2_get_bb())
         draw_rectangle(*self.foothold3_get_bb())

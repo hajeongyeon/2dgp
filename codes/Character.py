@@ -21,8 +21,8 @@ class Character:
     LEFT_JUMP, RIGHT_JUMP, LEFT_DEATH, RIGHT_DEATH = 6, 7, 8, 9
 
 
-    def __init__(self):
-        self.x, self.y = 100, 120
+    def __init__(self, x, y):
+        self.x, self.y = x, y
         #
         self.frame = 0
         self.life_time = 0.0
@@ -33,6 +33,7 @@ class Character:
         self.temp = 0
         self.alert_frames = 0
         self.hp = 5000
+        self.mp = 3000
         #
         self.a_time = 0
         self.b_attack = False
@@ -94,14 +95,18 @@ class Character:
                     self.state = self.LEFT_STAND
         #
         if self.b_skill == True:
-            self.a_time += frame_time
-            if self.a_time >= 0.5:
-                self.a_time = 0
+            if self.mp <= 0:
                 self.b_skill = False
-                if self.state == self.RIGHT_ATTACK:
-                    self.state = self.RIGHT_STAND
-                elif self.state == self.LEFT_ATTACK:
-                    self.state = self.LEFT_STAND
+            else:
+                self.mp -= 30
+                self.a_time += frame_time
+                if self.a_time >= 0.5:
+                    self.a_time = 0
+                    self.b_skill = False
+                    if self.state == self.RIGHT_ATTACK:
+                        self.state = self.RIGHT_STAND
+                    elif self.state == self.LEFT_ATTACK:
+                        self.state = self.LEFT_STAND
         #
         if self.death == True:
             if self.state in (self.RIGHT_WALK, self.RIGHT_STAND, self.RIGHT_ATTACK, self.RIGHT_JUMP):
@@ -162,12 +167,20 @@ class Character:
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
-
     def ground_collide(self):
         self.y = 120
         self.temp = 120
 
     # Stage1
+    def ground1_collide(self):
+        self.y = 180
+        self.temp = 180
+    def ground2_collide(self):
+        self.y = 80
+        self.temp = 80
+    def ground3_collide(self):
+        self.y = 120
+        self.temp = 120
     def foothold1_collide(self):
         self.y = 270
         self.temp = 270
@@ -200,6 +213,9 @@ class Character:
         self.temp = 480
 
     # Stage2
+    def ground_collide2(self):
+        self.y = 120
+        self.temp = 120
     def foothold1_collide2(self):
         self.y = 213
         self.temp = 213
