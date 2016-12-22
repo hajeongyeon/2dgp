@@ -81,7 +81,9 @@ def shooting():
 def skill():
     global skills
     for character_ in character:
-        skills.append(Skill(character_.x, character_.y, character_.state))
+        if character_.b_skill == True:
+            skills.append(Skill(character_.x, character_.y, character_.state))
+
 
 
 def gameclear():
@@ -220,6 +222,40 @@ def update(frame_time):
         if character_.hp <= 0:
             character_.death = True
 
+        for zakumarm1_ in zakumarm1:
+            if zakumarm1_.hp <= 0:
+                zakumarm1.remove(zakumarm1_)
+        for zakumarm2_ in zakumarm2:
+            if zakumarm2_.hp <= 0:
+                zakumarm2.remove(zakumarm2_)
+        for zakumarm3_ in zakumarm3:
+            if zakumarm3_.hp <= 0:
+                zakumarm3.remove(zakumarm3_)
+        for zakumarm4_ in zakumarm4:
+            if zakumarm4_.hp <= 0:
+                zakumarm4.remove(zakumarm4_)
+        for zakumarm5_ in zakumarm5:
+            if zakumarm5_.hp <= 0:
+                zakumarm5.remove(zakumarm5_)
+        for zakumarm6_ in zakumarm6:
+            if zakumarm6_.hp <= 0:
+                zakumarm6.remove(zakumarm6_)
+        for zakumarm7_ in zakumarm7:
+            if zakumarm7_.hp <= 0:
+                zakumarm7.remove(zakumarm7_)
+        for zakumarm8_ in zakumarm8:
+            if zakumarm8_.hp <= 0:
+                zakumarm8.remove(zakumarm8_)
+        for zakumbody_ in zakumbody:
+            if zakumbody_.hp <= 0:
+                zakumbody.remove(zakumbody_)
+                gameclear()
+            else:
+                if int(time.time % 10) == 0:
+                    zakumbody_.skilling1()
+                if int(time.time % 10) == 5:
+                    zakumbody_.skilling2()
+
     # bullet and zakum collide
     for bullet in bullets:
         for zakumarm1_ in zakumarm1:
@@ -297,48 +333,6 @@ def update(frame_time):
             if sazb_collide(fire, zakumbody_):
                 zakumbody_.hp -= 100000
                 skills.remove(fire)
-
-    for zakumarm1_ in zakumarm1:
-        if zakumarm1_.hp <= 0:
-            zakumarm1_.death = True
-            zakumarm1.remove(zakumarm1_)
-    for zakumarm2_ in zakumarm2:
-        if zakumarm2_.hp <= 0:
-            zakumarm2_.death = True
-            zakumarm2.remove(zakumarm2_)
-    for zakumarm3_ in zakumarm3:
-        if zakumarm3_.hp <= 0:
-            zakumarm3_.death = True
-            zakumarm3.remove(zakumarm3_)
-    for zakumarm4_ in zakumarm4:
-        if zakumarm4_.hp <= 0:
-            zakumarm4_.death = True
-            zakumarm4.remove(zakumarm4_)
-    for zakumarm5_ in zakumarm5:
-        if zakumarm5_.hp <= 0:
-            zakumarm5_.death = True
-            zakumarm5.remove(zakumarm5_)
-    for zakumarm6_ in zakumarm6:
-        if zakumarm6_.hp <= 0:
-            zakumarm6_.death = True
-            zakumarm6.remove(zakumarm6_)
-    for zakumarm7_ in zakumarm7:
-        if zakumarm7_.hp <= 0:
-            zakumarm7_.death = True
-            zakumarm7.remove(zakumarm7_)
-    for zakumarm8_ in zakumarm8:
-        if zakumarm8_.hp <= 0:
-            zakumarm8_.death = True
-            zakumarm8.remove(zakumarm8_)
-    for zakumbody_ in zakumbody:
-        if zakumbody_.hp <= 0:
-            zakumbody.remove(zakumbody_)
-            gameclear()
-        else:
-            if int(time.time % 10) == 0:
-                zakumbody_.skilling1()
-            if int(time.time % 10) == 5:
-                zakumbody_.skilling2()
 
 
 def draw(frame_time):

@@ -66,7 +66,7 @@ class Character:
         #
         if self.state == self.RIGHT_JUMP:
             self.j_time += 0.18
-            self.y -= -9 + (0.98 * self.j_time * self.j_time) / 2
+            self.y -= -9 + (0.98 * self.j_time * self.j_time)
             if self.y <= self.temp:
                 self.j_time = 0
                 self.b_jump = False
@@ -74,7 +74,7 @@ class Character:
                 self.state = self.RIGHT_STAND
         elif self.state == self.LEFT_JUMP:
             self.j_time += 0.18
-            self.y -= -9 + (0.98 * self.j_time * self.j_time) / 2
+            self.y -= -9 + (0.98 * self.j_time * self.j_time)
             if self.y <= self.temp:
                 self.j_time = 0
                 self.b_jump = False
@@ -95,18 +95,15 @@ class Character:
                     self.state = self.LEFT_STAND
         #
         if self.b_skill == True:
-            if self.mp <= 0:
+            self.mp -= 30
+            self.a_time += frame_time
+            if self.a_time >= 0.5:
+                self.a_time = 0
                 self.b_skill = False
-            else:
-                self.mp -= 30
-                self.a_time += frame_time
-                if self.a_time >= 0.5:
-                    self.a_time = 0
-                    self.b_skill = False
-                    if self.state == self.RIGHT_ATTACK:
-                        self.state = self.RIGHT_STAND
-                    elif self.state == self.LEFT_ATTACK:
-                        self.state = self.LEFT_STAND
+                if self.state == self.RIGHT_ATTACK:
+                    self.state = self.RIGHT_STAND
+                elif self.state == self.LEFT_ATTACK:
+                    self.state = self.LEFT_STAND
         #
         if self.death == True:
             if self.state in (self.RIGHT_WALK, self.RIGHT_STAND, self.RIGHT_ATTACK, self.RIGHT_JUMP):
@@ -157,11 +154,17 @@ class Character:
                 self.state = self.LEFT_JUMP
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LSHIFT):
             if self.state in (self.RIGHT_WALK, self.RIGHT_STAND):
-                self.b_skill = True
-                self.state = self.RIGHT_ATTACK
+                if self.mp > 0:
+                    self.b_skill = True
+                    self.state = self.RIGHT_ATTACK
+                else:
+                    self.b_skill = False
             if self.state in (self.LEFT_WALK, self.LEFT_STAND):
-                self.b_skill = True
-                self.state = self.LEFT_ATTACK
+                if self.mp > 0:
+                    self.b_skill = True
+                    self.state = self.LEFT_ATTACK
+                else:
+                    self.b_skill = False
 
 
     def draw_bb(self):
@@ -173,14 +176,15 @@ class Character:
 
     # Stage1
     def ground1_collide(self):
-        self.y = 180
-        self.temp = 180
+        self.y = 205
+        self.temp = 205
     def ground2_collide(self):
-        self.y = 80
-        self.temp = 80
+        self.y = 105
+        self.temp = 105
     def ground3_collide(self):
-        self.y = 120
-        self.temp = 120
+        self.y = 145
+        self.temp = 145
+    #
     def foothold1_collide(self):
         self.y = 270
         self.temp = 270
@@ -188,17 +192,17 @@ class Character:
         self.y = 340
         self.temp = 340
     def foothold3_collide(self):
-        self.y = 270
-        self.temp = 270
+        self.y = 410
+        self.temp = 410
     def foothold4_collide(self):
-        self.y = 200
-        self.temp = 200
-    def foothold5_collide(self):
-        self.y = 270
-        self.temp = 270
-    def foothold6_collide(self):
         self.y = 340
         self.temp = 340
+    def foothold5_collide(self):
+        self.y = 410
+        self.temp = 410
+    def foothold6_collide(self):
+        self.y = 480
+        self.temp = 480
     def foothold7_collide(self):
         self.y = 410
         self.temp = 410
@@ -214,8 +218,8 @@ class Character:
 
     # Stage2
     def ground_collide2(self):
-        self.y = 120
-        self.temp = 120
+        self.y = 135
+        self.temp = 135
     def foothold1_collide2(self):
         self.y = 213
         self.temp = 213

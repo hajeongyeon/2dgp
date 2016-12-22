@@ -56,6 +56,7 @@ class Stage1Background:
         self.speed = 0
         self.left = 0
         self.x = 0
+        self.movex = 660
         self.total_frames = 0.0
         self.frame = 0
         self.canvas_width = get_canvas_width()
@@ -63,6 +64,7 @@ class Stage1Background:
         self.w = self.background.w
         self.h = self.background.h
         self.height = 85
+        self.dir = 1
 
     def set_center_object(self, character):
         self.set_center_object = character
@@ -74,31 +76,38 @@ class Stage1Background:
         #
         self.foothold.clip_draw(0, 0, 141, 86, 350 + sx, 200)
         self.foothold.clip_draw(0, 0, 141, 86, 470 + sx, 270)
-        self.foothold.clip_draw(0, 0, 141, 86, 600 + sx, 200)
-        self.foothold.clip_draw(0, 0, 141, 86, 730 + sx, 130)
-        self.foothold.clip_draw(0, 0, 141, 86, 850 + sx, 200)
-        self.foothold.clip_draw(0, 0, 141, 86, 970 + sx, 270)
-        self.foothold.clip_draw(0, 0, 141, 86, 1090 + sx, 340)
-        self.foothold.clip_draw(0, 0, 141, 86, 1220 + sx, 270)
-        self.foothold.clip_draw(0, 0, 141, 86, 1340 + sx, 340)
-        self.foothold.clip_draw(0, 0, 141, 86, 1460 + sx, 410)
+        self.foothold.clip_draw(0, 0, 141, 86, 600 + sx, 340)
+        self.foothold.clip_draw(0, 0, 141, 86, self.movex + sx, 270)
+        self.foothold.clip_draw(0, 0, 141, 86, 970 + sx, 340)
+        self.foothold.clip_draw(0, 0, 141, 86, 1090 + sx, 410)
+        self.foothold.clip_draw(0, 0, 141, 86, 1220 + sx, 340)
+        self.foothold.clip_draw(0, 0, 141, 86, 1340 + sx, 270)
+        self.foothold.clip_draw(0, 0, 141, 86, 1460 + sx, 340)
+        self.foothold.clip_draw(0, 0, 141, 86, 1580 + sx, 410)
 
     def update(self, frame_time):
         self.total_frames += Stage1Background.FRAMES_PER_ACTION * Stage1Background.ACTION_PER_TIME * frame_time
         self.frame = int(self.total_frames) % 5
         self.left = clamp(0, int(self.set_center_object.x) - self.canvas_width//10, self.w - self.canvas_width)
+        self.movex += (frame_time * self.dir * 80)
+        if self.movex > 910:
+            self.dir = -1
+            self.movex = 910
+        elif self.movex < 660:
+            self.dir = 1
+            self.movex = 660
 
     def ground1_get_bb(self):
         sx = self.x - self.left
-        return 0 + sx, 180, 290 + sx, 180
+        return 0 + sx, 170, 290 + sx, 170
 
     def ground2_get_bb(self):
         sx = self.x - self.left
-        return 0 + sx, 80, 2016 + sx, 80
+        return 0 + sx, 70, 2016 + sx, 70
 
     def ground3_get_bb(self):
         sx = self.x - self.left
-        return 1750 + sx, 115, 2016 + sx, 115
+        return 1750 + sx, 110, 2016 + sx, 110
 
     def portal_get_bb(self):
         sx = self.x - self.left
@@ -114,35 +123,35 @@ class Stage1Background:
 
     def foothold3_get_bb(self):
         sx = self.x - self.left
-        return 540 + sx, 235, 660 + sx, 235
+        return 530 + sx, 375, 650 + sx, 375
 
     def foothold4_get_bb(self):
         sx = self.x - self.left
-        return 670 + sx, 165, 790 + sx, 165
+        return self.movex - 60 + sx, 305, self.movex + 60 + sx, 305
 
     def foothold5_get_bb(self):
         sx = self.x - self.left
-        return 790 + sx, 235, 910 + sx, 235
+        return 910 + sx, 375, 1030 + sx, 375
 
     def foothold6_get_bb(self):
         sx = self.x - self.left
-        return 910 + sx, 305, 1030 + sx, 305
+        return 1030 + sx, 445, 1150 + sx, 445
 
     def foothold7_get_bb(self):
         sx = self.x - self.left
-        return 1030 + sx, 375, 1150 + sx, 375
+        return 1160 + sx, 375, 1280 + sx, 375
 
     def foothold8_get_bb(self):
         sx = self.x - self.left
-        return 1160 + sx, 305, 1280 + sx, 305
+        return 1290 + sx, 305, 1410 + sx, 305
 
     def foothold9_get_bb(self):
         sx = self.x - self.left
-        return 1280 + sx, 375, 1400 + sx, 375
+        return 1410 + sx, 375, 1530 + sx, 375
 
     def foothold10_get_bb(self):
         sx = self.x - self.left
-        return 1400 + sx, 445, 1520 + sx, 445
+        return 1530 + sx, 445, 1650 + sx, 445
 
     def draw_bb(self):
         draw_rectangle(*self.portal_get_bb())

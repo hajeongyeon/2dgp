@@ -71,6 +71,10 @@ def update(frame_time):
             character_.foothold3_collide()
         if caf4_collide(character_, background):
             character_.foothold4_collide()
+            if background.dir == 1:
+                character_.x += (frame_time * 40)
+            elif background.dir == -1:
+                character_.x -= (frame_time * 40)
         if caf5_collide(character_, background):
             character_.foothold5_collide()
         if caf6_collide(character_, background):
@@ -83,6 +87,7 @@ def update(frame_time):
             character_.foothold9_collide()
         if caf10_collide(character_, background):
             character_.foothold10_collide()
+        #
         if cag1_collide(character_, background):
             character_.ground1_collide()
         if cag2_collide(character_, background):
